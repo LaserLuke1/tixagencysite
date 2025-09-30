@@ -1098,7 +1098,7 @@ body.prism-active .prism-overlay {
         display: none;
     }
 
-    /* Show images on mobile by default */
+    /* Show images on mobile by default and enable parallax state */
     .ticket-image {
         opacity: 1 !important;
         transform: scale(1) !important;
@@ -1107,6 +1107,7 @@ body.prism-active .prism-overlay {
 
     .ticket-stub {
         height: 260px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     }
 
     .ticket-content {
@@ -1148,6 +1149,12 @@ body.prism-active .prism-overlay {
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+    
+    /* Disable hover effects on mobile - parallax always active */
+    .ticket-stub:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        transform: none;
     }
 
     .hero {

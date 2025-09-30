@@ -134,6 +134,16 @@ function enableDeviceParallax() {
     const tickets = document.querySelectorAll('.ticket-stub');
     const largeTicket = document.querySelector('.project-ticket-large');
     
+    // On mobile, set all tickets to "active" state immediately
+    if (isMobile()) {
+        tickets.forEach(ticket => {
+            ticket.classList.add('mobile-parallax-active');
+        });
+        if (largeTicket) {
+            largeTicket.classList.add('mobile-parallax-active');
+        }
+    }
+    
     window.addEventListener('deviceorientation', (e) => {
         // Get device tilt angles
         const gamma = e.gamma; // Left to right tilt (-90 to 90)
@@ -156,10 +166,10 @@ function enableDeviceParallax() {
             const barcode = ticket.querySelector('.ticket-barcode');
             const perforation = ticket.querySelector('.ticket-perforation');
             
-            ticket.style.transform = `perspective(2000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) translateZ(15px) scale(1.01)`;
+            ticket.style.transform = `perspective(2000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(0px) translateZ(10px) scale(1.0)`;
             ticket.style.transition = 'transform 0.1s ease-out';
             
-            // Layered parallax for elements
+            // Layered parallax for elements - always active on mobile
             if (header) header.style.transform = `translateZ(60px) translate(${moveX * 0.3}px, ${moveY * 0.3}px)`;
             if (title) title.style.transform = `translateX(5px) translateZ(100px) scale(1.05) translate(${moveX * 0.5}px, ${moveY * 0.5}px)`;
             if (details) details.style.transform = `translateZ(50px) translate(${moveX * 0.25}px, ${moveY * 0.25}px)`;
@@ -178,7 +188,7 @@ function enableDeviceParallax() {
             const moveYLarge = tiltY * 25;
             const rotateLarge = tiltX * 4;
             
-            largeTicket.style.transform = `perspective(2000px) rotateX(${tiltY * -4}deg) rotateY(${rotateLarge}deg) translateY(-8px) translateZ(15px) scale(1.01)`;
+            largeTicket.style.transform = `perspective(2000px) rotateX(${tiltY * -4}deg) rotateY(${rotateLarge}deg) translateY(0px) translateZ(10px) scale(1.0)`;
             largeTicket.style.transition = 'transform 0.1s ease-out';
             
             if (header) header.style.transform = `translateZ(60px) translate(${moveXLarge * 0.3}px, ${moveYLarge * 0.3}px)`;
@@ -319,9 +329,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Ticket stub parallax effect with layered element movement
+// Ticket stub parallax effect with layered element movement (desktop only)
 const ticketStubs = document.querySelectorAll('.ticket-stub');
 
+// Only enable desktop mouse parallax if not on mobile
+if (!isMobile()) {
 ticketStubs.forEach((ticket) => {
     let currentRotateX = 0;
     let currentRotateY = 0;
@@ -440,6 +452,7 @@ ticketStubs.forEach((ticket) => {
         console.log(`Opening project ${projectNumber}: ${projectTitle}`);
     });
 });
+}
 
 // Intersection Observer for scroll animations
 const observerOptions = {
@@ -721,10 +734,10 @@ function disableStaticNoise() {
     document.body.classList.remove('static-active');
 }
 
-// Large project ticket parallax effect
+// Large project ticket parallax effect (desktop only)
 const projectTicketLarge = document.querySelector('.project-ticket-large');
 
-if (projectTicketLarge) {
+if (projectTicketLarge && !isMobile()) {
     let currentRotateX = 0;
     let currentRotateY = 0;
     let targetRotateX = 0;

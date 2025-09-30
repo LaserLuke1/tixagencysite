@@ -363,6 +363,25 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Large ticket always shows image and text on mobile */
+    .project-ticket-large {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    .project-ticket-large .ticket-header-large {
+        text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+    }
+    
+    .project-ticket-large .project-title-large {
+        text-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
+        letter-spacing: 3px;
+    }
+    
+    .project-ticket-large .ticket-meta {
+        text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+    }
+    
+
     .project-hero {
         padding: 60px 0;
     }
