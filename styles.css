@@ -59,7 +59,8 @@ body {
     transition: opacity 0.1s;
 }
 
-.nav-brand:hover span {
+.nav-brand:hover span,
+.nav-brand.auto-flicker span {
     animation: type-flicker 0.06s ease-in-out;
     animation-delay: calc(var(--i) * 0.05s);
     animation-fill-mode: both;
@@ -103,6 +104,38 @@ body {
 
 .nav-menu a:hover {
     opacity: 0.6;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 1001;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 2px;
+    background-color: #000000;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
 }
 
 /* Settings Dropdown */
@@ -1006,8 +1039,115 @@ body.prism-active .prism-overlay {
         padding: 0 20px;
     }
 
+    /* Mobile Navigation */
+    .navbar .container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .nav-brand {
+        order: 2;
+        margin: 0 auto;
+    }
+
+    .hamburger {
+        display: flex;
+        order: 1;
+        position: absolute;
+        left: 20px;
+    }
+
     .nav-menu {
-        gap: 20px;
+        position: fixed;
+        top: 81px;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        border-bottom: 1px solid #000000;
+        flex-direction: column;
+        gap: 0;
+        font-size: 12px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        order: 3;
+    }
+
+    .nav-menu.active {
+        max-height: 500px;
+    }
+
+    .nav-menu li {
+        border-bottom: 1px solid #000000;
+    }
+
+    .nav-menu li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-menu a,
+    .settings-button {
+        display: block;
+        padding: 15px 20px;
+        width: 100%;
+        text-align: left;
+    }
+
+    /* Hide settings completely on mobile */
+    .settings-dropdown {
+        display: none;
+    }
+
+    /* Show images on mobile by default */
+    .ticket-image {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0px);
+    }
+
+    .ticket-stub {
+        height: 260px;
+    }
+
+    .ticket-content {
+        color: #ffffff;
+    }
+
+    .ticket-content * {
+        color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .ticket-perforation {
+        background-image: repeating-linear-gradient(
+            to right,
+            transparent,
+            transparent 5px,
+            #ffffff 5px,
+            #ffffff 10px
+        );
+    }
+
+    .ticket-header {
+        text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+    }
+
+    .ticket-title {
+        font-size: 24px;
+        text-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
+        letter-spacing: 3px;
+    }
+
+    .ticket-details {
+        text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+    }
+
+    .ticket-barcode {
+        text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+        background-color: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
     }
 
     .hero {
@@ -1032,14 +1172,6 @@ body.prism-active .prism-overlay {
         gap: 30px;
     }
 
-    .ticket-stub {
-        height: 260px;
-    }
-
-    .ticket-title {
-        font-size: 24px;
-    }
-
     .projects-section,
     .about-section,
     .contact-section {
@@ -1054,10 +1186,6 @@ body.prism-active .prism-overlay {
         flex-direction: column;
         gap: 20px;
         text-align: center;
-    }
-
-    .nav-menu {
-        font-size: 12px;
     }
 }
 
@@ -1180,6 +1308,57 @@ body.light-mode .page-transition {
     }
 }
 
+/* Enable Motion Button (iOS) */
+.enable-motion-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000000;
+    color: #ffffff;
+    border: 2px solid #000000;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    text-transform: uppercase;
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .enable-motion-btn {
+        display: block;
+    }
+}
+
+.enable-motion-btn.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.enable-motion-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+    transform: translateX(-50%) scale(1.05);
+}
+
+body.dark-mode .enable-motion-btn {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+}
+
+body.dark-mode .enable-motion-btn:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
 /* Easter Egg */
 .easter-egg {
     position: fixed;
@@ -1226,6 +1405,19 @@ body.dark-mode .navbar {
 body.dark-mode .nav-brand {
     color: #ffffff;
     border-color: #ffffff;
+}
+
+body.dark-mode .hamburger span {
+    background-color: #ffffff;
+}
+
+body.dark-mode .nav-menu {
+    background-color: #000000;
+    border-bottom-color: #ffffff;
+}
+
+body.dark-mode .nav-menu li {
+    border-bottom-color: #ffffff;
 }
 
 body.dark-mode .nav-menu a {
@@ -1367,6 +1559,19 @@ body.light-mode .nav-brand {
     border-color: #000000;
 }
 
+body.light-mode .hamburger span {
+    background-color: #000000;
+}
+
+body.light-mode .nav-menu {
+    background-color: #ffffff;
+    border-bottom-color: #000000;
+}
+
+body.light-mode .nav-menu li {
+    border-bottom-color: #000000;
+}
+
 body.light-mode .nav-menu a {
     color: #000000;
 }
@@ -1501,6 +1706,19 @@ body.light-mode .dropdown-item:hover {
     body:not(.light-mode):not(.dark-mode) .nav-brand {
         color: #ffffff;
         border-color: #ffffff;
+    }
+
+    body:not(.light-mode):not(.dark-mode) .hamburger span {
+        background-color: #ffffff;
+    }
+
+    body:not(.light-mode):not(.dark-mode) .nav-menu {
+        background-color: #000000;
+        border-bottom-color: #ffffff;
+    }
+
+    body:not(.light-mode):not(.dark-mode) .nav-menu li {
+        border-bottom-color: #ffffff;
     }
 
     body:not(.light-mode):not(.dark-mode) .nav-menu a {

@@ -7,9 +7,19 @@ let activeEffects = {
     'static-noise': false
 };
 
+// Utility function
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
 // Theme Management
 function getThemePreference() {
-    return localStorage.getItem('theme') || 'auto';
+    // Default to dark mode on mobile, otherwise use saved preference
+    const saved = localStorage.getItem('theme');
+    if (!saved && isMobile()) {
+        return 'dark';
+    }
+    return saved || 'auto';
 }
 
 function setThemePreference(theme) {
@@ -81,53 +91,136 @@ if (savedTheme === 'dream') {
     enableDreamEffects();
 }
 
-// Inactivity Dream Mode
-let inactivityTimer = null;
-let previousTheme = null;
-let isInactivityDreamMode = false;
-const INACTIVITY_TIMEOUT = 45000; // 45 seconds
-
-function resetInactivityTimer() {
-    // Clear existing timer
-    if (inactivityTimer) {
-        clearTimeout(inactivityTimer);
-    }
+// Logo flicker animation on mobile (every 30 seconds)
+if (isMobile()) {
+    const navBrand = document.querySelector('.nav-brand');
     
-    // If we're in inactivity dream mode, restore previous theme
-    if (isInactivityDreamMode) {
-        isInactivityDreamMode = false;
-        if (previousTheme) {
-            applyTheme(previousTheme);
-            updateActiveTheme(previousTheme);
+    function triggerLogoFlicker() {
+        if (navBrand) {
+            navBrand.classList.add('auto-flicker');
+            setTimeout(() => {
+                navBrand.classList.remove('auto-flicker');
+            }, 1000);
         }
     }
     
-    // Don't set timer if already in manual Dream mode
-    const currentTheme = getThemePreference();
-    if (currentTheme === 'dream') {
-        return;
-    }
-    
-    // Start new timer
-    inactivityTimer = setTimeout(() => {
-        // Save current theme
-        previousTheme = getThemePreference();
-        isInactivityDreamMode = true;
-        
-        // Switch to Dream mode
-        applyTheme('dream');
-        // Don't update the saved preference or active indicator
-    }, INACTIVITY_TIMEOUT);
+    // Trigger every 30 seconds on mobile
+    setInterval(triggerLogoFlicker, 30000);
 }
 
-// Track user activity
-const activityEvents = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'];
-activityEvents.forEach(event => {
-    document.addEventListener(event, resetInactivityTimer, { passive: true });
-});
+// Device Orientation Parallax for Mobile
+let deviceOrientationEnabled = false;
 
-// Start the inactivity timer
-resetInactivityTimer();
+async function requestDeviceOrientation() {
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // iOS 13+ requires permission
+        try {
+            const permission = await DeviceOrientationEvent.requestPermission();
+            if (permission === 'granted') {
+                deviceOrientationEnabled = true;
+                enableDeviceParallax();
+            }
+        } catch (error) {
+            console.log('Device orientation permission denied');
+        }
+    } else if (window.DeviceOrientationEvent) {
+        // Non-iOS or older iOS - no permission needed
+        deviceOrientationEnabled = true;
+        enableDeviceParallax();
+    }
+}
+
+function enableDeviceParallax() {
+    const tickets = document.querySelectorAll('.ticket-stub');
+    const largeTicket = document.querySelector('.project-ticket-large');
+    
+    window.addEventListener('deviceorientation', (e) => {
+        // Get device tilt angles
+        const gamma = e.gamma; // Left to right tilt (-90 to 90)
+        const beta = e.beta;   // Front to back tilt (-180 to 180)
+        
+        // Normalize to reasonable range (-1 to 1)
+        const tiltX = Math.max(-1, Math.min(1, gamma / 30));
+        const tiltY = Math.max(-1, Math.min(1, (beta - 45) / 30)); // Center around 45deg
+        
+        const rotateX = tiltY * -6;
+        const rotateY = tiltX * 6;
+        const moveX = tiltX * 20;
+        const moveY = tiltY * 20;
+        
+        // Apply to small tickets
+        tickets.forEach(ticket => {
+            const header = ticket.querySelector('.ticket-header');
+            const title = ticket.querySelector('.ticket-title');
+            const details = ticket.querySelector('.ticket-details');
+            const barcode = ticket.querySelector('.ticket-barcode');
+            const perforation = ticket.querySelector('.ticket-perforation');
+            
+            ticket.style.transform = `perspective(2000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) translateZ(15px) scale(1.01)`;
+            ticket.style.transition = 'transform 0.1s ease-out';
+            
+            // Layered parallax for elements
+            if (header) header.style.transform = `translateZ(60px) translate(${moveX * 0.3}px, ${moveY * 0.3}px)`;
+            if (title) title.style.transform = `translateX(5px) translateZ(100px) scale(1.05) translate(${moveX * 0.5}px, ${moveY * 0.5}px)`;
+            if (details) details.style.transform = `translateZ(50px) translate(${moveX * 0.25}px, ${moveY * 0.25}px)`;
+            if (barcode) barcode.style.transform = `scaleX(1.05) translateZ(45px) translate(${moveX * 0.22}px, ${moveY * 0.22}px)`;
+            if (perforation) perforation.style.transform = `translateZ(80px) translate(${moveX * 0.4}px, 0)`;
+        });
+        
+        // Apply to large project ticket
+        if (largeTicket) {
+            const header = largeTicket.querySelector('.ticket-header-large');
+            const title = largeTicket.querySelector('.project-title-large');
+            const details = largeTicket.querySelector('.ticket-meta');
+            const perforation = largeTicket.querySelector('.ticket-perforation-large');
+            
+            const moveXLarge = tiltX * 25;
+            const moveYLarge = tiltY * 25;
+            const rotateLarge = tiltX * 4;
+            
+            largeTicket.style.transform = `perspective(2000px) rotateX(${tiltY * -4}deg) rotateY(${rotateLarge}deg) translateY(-8px) translateZ(15px) scale(1.01)`;
+            largeTicket.style.transition = 'transform 0.1s ease-out';
+            
+            if (header) header.style.transform = `translateZ(60px) translate(${moveXLarge * 0.3}px, ${moveYLarge * 0.3}px)`;
+            if (title) title.style.transform = `translateZ(100px) scale(1.02) translate(${moveXLarge * 0.5}px, ${moveYLarge * 0.5}px)`;
+            if (details) details.style.transform = `translateZ(50px) translate(${moveXLarge * 0.25}px, ${moveYLarge * 0.25}px)`;
+            if (perforation) perforation.style.transform = `translateZ(80px) translate(${moveXLarge * 0.4}px, 0)`;
+        }
+    });
+}
+
+// Auto-enable device parallax on mobile
+if (isMobile()) {
+    const enableBtn = document.getElementById('enableMotionBtn');
+    
+    // Check if permission is needed (iOS 13+)
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // Show button for iOS users
+        setTimeout(() => {
+            if (enableBtn) {
+                enableBtn.classList.add('show');
+            }
+        }, 1500);
+        
+        // Handle button click
+        if (enableBtn) {
+            enableBtn.addEventListener('click', async () => {
+                await requestDeviceOrientation();
+                enableBtn.classList.remove('show');
+                setTimeout(() => {
+                    enableBtn.style.display = 'none';
+                }, 300);
+            });
+        }
+    } else if (window.DeviceOrientationEvent) {
+        // Auto-enable for Android and older iOS
+        enableDeviceParallax();
+        // Hide button
+        if (enableBtn) {
+            enableBtn.style.display = 'none';
+        }
+    }
+}
 
 // Page Transition
 // Create transition overlay
@@ -150,6 +243,34 @@ document.querySelectorAll('.ticket-stub-link, .back-link').forEach(link => {
         }, 300);
     });
 });
+
+// Hamburger Menu Toggle
+const hamburger = document.querySelector('.hamburger');
+const navMenu = document.querySelector('.nav-menu');
+
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking a nav link
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+}
 
 // Settings Dropdown Toggle
 const settingsButton = document.querySelector('.settings-button');
