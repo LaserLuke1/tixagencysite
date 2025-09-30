@@ -742,7 +742,7 @@ body.prism-active .prism-overlay {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0;
+    opacity: 0 !important;
     transform: scale(1.1);
     filter: blur(10px);
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -767,7 +767,7 @@ body.prism-active .prism-overlay {
 }
 
 .ticket-stub:hover .ticket-image {
-    opacity: 1;
+    opacity: 1 !important;
     transform: scale(1);
     filter: blur(0px);
 }
@@ -1100,9 +1100,9 @@ body.prism-active .prism-overlay {
 
     /* Show images on mobile by default */
     .ticket-image {
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(0px);
+        opacity: 1 !important;
+        transform: scale(1) !important;
+        filter: blur(0px) !important;
     }
 
     .ticket-stub {
