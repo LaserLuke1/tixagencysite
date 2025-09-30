@@ -129,6 +129,28 @@ activityEvents.forEach(event => {
 // Start the inactivity timer
 resetInactivityTimer();
 
+// Page Transition
+// Create transition overlay
+const pageTransition = document.createElement('div');
+pageTransition.className = 'page-transition';
+document.body.appendChild(pageTransition);
+
+// Handle ticket link clicks with transition
+document.querySelectorAll('.ticket-stub-link, .back-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+        
+        // Trigger transition
+        pageTransition.classList.add('active');
+        
+        // Navigate after transition
+        setTimeout(() => {
+            window.location.href = href;
+        }, 300);
+    });
+});
+
 // Settings Dropdown Toggle
 const settingsButton = document.querySelector('.settings-button');
 const settingsDropdown = document.querySelector('.settings-dropdown');
