@@ -1,3 +1,12 @@
+// Effects Management - Declare at the top
+let cursorShaderElements = null;
+let activeEffects = {
+    'cursor-shader': false,
+    'wave-distortion': false,
+    'vhs-glitch': false,
+    'static-noise': false
+};
+
 // Theme Management
 function getThemePreference() {
     return localStorage.getItem('theme') || 'auto';
@@ -11,20 +20,24 @@ function applyTheme(theme) {
     const body = document.body;
     
     if (theme === 'dark') {
+        // Night mode - dark theme without effects
         body.classList.add('dark-mode');
         body.classList.remove('light-mode');
+        disableAllEffects();
+    } else if (theme === 'dream') {
+        // Dream mode - dark theme with effects
+        body.classList.add('dark-mode');
+        body.classList.remove('light-mode');
+        enableDreamEffects();
     } else if (theme === 'light') {
+        // Day mode - light theme
         body.classList.add('light-mode');
         body.classList.remove('dark-mode');
-        // Disable all effects when switching to Day mode
         disableAllEffects();
     } else {
-        // Auto mode - remove manual classes to use CSS media query
+        // Auto mode - use system preference
         body.classList.remove('dark-mode', 'light-mode');
-        // Check if auto mode is light, disable all effects if so
-        if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            disableAllEffects();
-        }
+        disableAllEffects();
     }
 }
 
@@ -32,12 +45,18 @@ function disableAllEffects() {
     Object.keys(activeEffects).forEach(effect => {
         if (activeEffects[effect]) {
             disableEffect(effect);
-            const effectItem = document.querySelector(`[data-effect="${effect}"]`);
-            if (effectItem) {
-                effectItem.classList.remove('active');
-                effectItem.querySelector('.toggle-indicator').textContent = 'Off';
-            }
             activeEffects[effect] = false;
+        }
+    });
+}
+
+function enableDreamEffects() {
+    // Enable all Dream effects
+    const dreamEffects = ['cursor-shader', 'wave-distortion', 'vhs-glitch', 'static-noise'];
+    dreamEffects.forEach(effect => {
+        if (!activeEffects[effect]) {
+            enableEffect(effect);
+            activeEffects[effect] = true;
         }
     });
 }
@@ -56,6 +75,59 @@ function updateActiveTheme(theme) {
 const savedTheme = getThemePreference();
 applyTheme(savedTheme);
 updateActiveTheme(savedTheme);
+
+// Initialize Dream effects if needed
+if (savedTheme === 'dream') {
+    enableDreamEffects();
+}
+
+// Inactivity Dream Mode
+let inactivityTimer = null;
+let previousTheme = null;
+let isInactivityDreamMode = false;
+const INACTIVITY_TIMEOUT = 45000; // 45 seconds
+
+function resetInactivityTimer() {
+    // Clear existing timer
+    if (inactivityTimer) {
+        clearTimeout(inactivityTimer);
+    }
+    
+    // If we're in inactivity dream mode, restore previous theme
+    if (isInactivityDreamMode) {
+        isInactivityDreamMode = false;
+        if (previousTheme) {
+            applyTheme(previousTheme);
+            updateActiveTheme(previousTheme);
+        }
+    }
+    
+    // Don't set timer if already in manual Dream mode
+    const currentTheme = getThemePreference();
+    if (currentTheme === 'dream') {
+        return;
+    }
+    
+    // Start new timer
+    inactivityTimer = setTimeout(() => {
+        // Save current theme
+        previousTheme = getThemePreference();
+        isInactivityDreamMode = true;
+        
+        // Switch to Dream mode
+        applyTheme('dream');
+        // Don't update the saved preference or active indicator
+    }, INACTIVITY_TIMEOUT);
+}
+
+// Track user activity
+const activityEvents = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'];
+activityEvents.forEach(event => {
+    document.addEventListener(event, resetInactivityTimer, { passive: true });
+});
+
+// Start the inactivity timer
+resetInactivityTimer();
 
 // Settings Dropdown Toggle
 const settingsButton = document.querySelector('.settings-button');
@@ -82,14 +154,10 @@ if (settingsButton && settingsDropdown) {
             applyTheme(theme);
             updateActiveTheme(theme);
             settingsDropdown.classList.remove('active');
-        });
-    });
-
-    // Handle effect toggles
-    document.querySelectorAll('.dropdown-item[data-effect]').forEach(item => {
-        item.addEventListener('click', () => {
-            const effect = item.getAttribute('data-effect');
-            toggleEffect(effect, item);
+            
+            // Reset inactivity state if manually selecting theme
+            isInactivityDreamMode = false;
+            resetInactivityTimer();
         });
     });
 }
@@ -108,22 +176,125 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Ticket stub click interaction
+// Ticket stub parallax effect with layered element movement
 const ticketStubs = document.querySelectorAll('.ticket-stub');
 
-ticketStubs.forEach(ticket => {
-    ticket.addEventListener('click', function() {
+ticketStubs.forEach((ticket) => {
+    let currentRotateX = 0;
+    let currentRotateY = 0;
+    let targetRotateX = 0;
+    let targetRotateY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    let animationFrame = null;
+    
+    const header = ticket.querySelector('.ticket-header');
+    const title = ticket.querySelector('.ticket-title');
+    const details = ticket.querySelector('.ticket-details');
+    const barcode = ticket.querySelector('.ticket-barcode');
+    const perforation = ticket.querySelector('.ticket-perforation');
+    
+    function animate() {
+        // Smooth interpolation for floating effect
+        currentRotateX += (targetRotateX - currentRotateX) * 0.1;
+        currentRotateY += (targetRotateY - currentRotateY) * 0.1;
+        
+        ticket.style.transform = `perspective(2000px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg) translateY(-12px) translateZ(20px) scale(1.02)`;
+        
+        // Layered parallax for each element based on depth
+        // Elements with more translateZ move more (closer = more movement)
+        if (header) {
+            const moveX = mouseX * 0.3; // 30% movement
+            const moveY = mouseY * 0.3;
+            header.style.transform = `translateZ(60px) translate(${moveX}px, ${moveY}px)`;
+        }
+        
+        if (title) {
+            const moveX = mouseX * 0.5; // 50% movement (most dramatic - furthest forward)
+            const moveY = mouseY * 0.5;
+            title.style.transform = `translateX(5px) translateZ(100px) scale(1.05) translate(${moveX}px, ${moveY}px)`;
+        }
+        
+        if (details) {
+            const moveX = mouseX * 0.25; // 25% movement
+            const moveY = mouseY * 0.25;
+            details.style.transform = `translateZ(50px) translate(${moveX}px, ${moveY}px)`;
+        }
+        
+        if (barcode) {
+            const moveX = mouseX * 0.22; // 22% movement
+            const moveY = mouseY * 0.22;
+            barcode.style.transform = `scaleX(1.05) translateZ(45px) translate(${moveX}px, ${moveY}px)`;
+        }
+        
+        if (perforation) {
+            const moveX = mouseX * 0.4; // 40% movement
+            perforation.style.transform = `translateZ(80px) translate(${moveX}px, 0)`;
+        }
+        
+        // Continue animation if not at target
+        if (Math.abs(targetRotateX - currentRotateX) > 0.01 || Math.abs(targetRotateY - currentRotateY) > 0.01) {
+            animationFrame = requestAnimationFrame(animate);
+        }
+    }
+    
+    ticket.addEventListener('mouseenter', function() {
+        this.style.transition = 'box-shadow 0.3s ease';
+    });
+    
+    ticket.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        // Calculate target rotation
+        targetRotateX = ((y - centerY) / centerY) * -6;
+        targetRotateY = ((x - centerX) / centerX) * 6;
+        
+        // Calculate mouse offset from center for parallax (-1 to 1)
+        mouseX = ((x - centerX) / centerX) * 20; // Max 20px movement
+        mouseY = ((y - centerY) / centerY) * 20;
+        
+        // Start animation if not running
+        if (!animationFrame) {
+            animationFrame = requestAnimationFrame(animate);
+        }
+    });
+    
+    ticket.addEventListener('mouseleave', function() {
+        // Cancel animation
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+            animationFrame = null;
+        }
+        
+        // Smooth return to rest
+        this.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease';
+        this.style.transform = 'perspective(2000px) rotateX(0deg) rotateY(0deg) translateY(0px) translateZ(0px) scale(1)';
+        
+        // Reset elements
+        if (header) header.style.transform = '';
+        if (title) title.style.transform = '';
+        if (details) details.style.transform = '';
+        if (barcode) barcode.style.transform = '';
+        if (perforation) perforation.style.transform = '';
+        
+        // Reset values
+        currentRotateX = 0;
+        currentRotateY = 0;
+        targetRotateX = 0;
+        targetRotateY = 0;
+        mouseX = 0;
+        mouseY = 0;
+    });
+    
+    ticket.addEventListener('click', function(e) {
         const projectNumber = this.getAttribute('data-project');
         const projectTitle = this.querySelector('.ticket-title').textContent.trim();
-        
-        // Simple alert for now - can be replaced with modal or navigation
         console.log(`Opening project ${projectNumber}: ${projectTitle}`);
-        
-        // Add a subtle scale effect on click
-        this.style.transform = 'scale(0.98)';
-        setTimeout(() => {
-            this.style.transform = '';
-        }, 150);
     });
 });
 
@@ -190,11 +361,6 @@ window.addEventListener('load', () => {
     
     console.log(`%c${greeting}! 👋`, 'font-size: 20px; font-weight: bold; color: #000;');
     console.log('%cThanks for checking out the code! 🎫', 'font-size: 14px; color: #666;');
-    
-    // Show easter egg on page load
-    setTimeout(() => {
-        showEasterEgg();
-    }, 500);
 });
 
 // Easter Egg - Time-based greeting
@@ -269,22 +435,6 @@ if (navBrand) {
 }
 
 // Effects Management
-let cursorShaderElements = null;
-let cursorFeedbackTrails = [];
-let cursorFeedbackPositions = [];
-let cursorFeedbackRaf = null;
-let activeEffects = {
-    'cursor-shader': false,
-    'wave-distortion': false,
-    'vhs-glitch': false,
-    'kaleidoscope': false,
-    'static-noise': false,
-    'radial-blur': false,
-    'ghost-effect': false,
-    'prism': false,
-    'cursor-feedback': false
-};
-
 function getCursorShaderPreference() {
     return localStorage.getItem('cursorShader') === 'true';
 }
@@ -349,32 +499,6 @@ function disableCursorShader() {
     }
 }
 
-function toggleEffect(effect, itemElement) {
-    // Check if we're in Dream mode
-    const currentTheme = getThemePreference();
-    const isDreamMode = currentTheme === 'dark' || 
-                       (currentTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    
-    if (!isDreamMode) {
-        alert('✨ Effects are only available in Dream mode! Switch to Dream theme to enable.');
-        return;
-    }
-    
-    const newState = !activeEffects[effect];
-    activeEffects[effect] = newState;
-    localStorage.setItem(effect, newState);
-    
-    if (newState) {
-        enableEffect(effect);
-        itemElement.classList.add('active');
-        itemElement.querySelector('.toggle-indicator').textContent = 'On';
-    } else {
-        disableEffect(effect);
-        itemElement.classList.remove('active');
-        itemElement.querySelector('.toggle-indicator').textContent = 'Off';
-    }
-}
-
 function enableEffect(effect) {
     switch(effect) {
         case 'cursor-shader':
@@ -386,23 +510,8 @@ function enableEffect(effect) {
         case 'vhs-glitch':
             enableVHSGlitch();
             break;
-        case 'kaleidoscope':
-            enableKaleidoscope();
-            break;
         case 'static-noise':
             enableStaticNoise();
-            break;
-        case 'radial-blur':
-            enableRadialBlur();
-            break;
-        case 'ghost-effect':
-            enableGhostEffect();
-            break;
-        case 'prism':
-            enablePrism();
-            break;
-        case 'cursor-feedback':
-            enableCursorFeedback();
             break;
     }
 }
@@ -418,23 +527,8 @@ function disableEffect(effect) {
         case 'vhs-glitch':
             disableVHSGlitch();
             break;
-        case 'kaleidoscope':
-            disableKaleidoscope();
-            break;
         case 'static-noise':
             disableStaticNoise();
-            break;
-        case 'radial-blur':
-            disableRadialBlur();
-            break;
-        case 'ghost-effect':
-            disableGhostEffect();
-            break;
-        case 'prism':
-            disablePrism();
-            break;
-        case 'cursor-feedback':
-            disableCursorFeedback();
             break;
     }
 }
@@ -469,21 +563,6 @@ function disableVHSGlitch() {
     document.body.classList.remove('vhs-active');
 }
 
-// Kaleidoscope
-function enableKaleidoscope() {
-    const overlay = document.createElement('div');
-    overlay.className = 'kaleidoscope-overlay';
-    overlay.id = 'kaleidoscope-overlay';
-    document.body.appendChild(overlay);
-    document.body.classList.add('kaleidoscope-active');
-}
-
-function disableKaleidoscope() {
-    const overlay = document.getElementById('kaleidoscope-overlay');
-    if (overlay) overlay.remove();
-    document.body.classList.remove('kaleidoscope-active');
-}
-
 // Static Noise
 function enableStaticNoise() {
     const overlay = document.createElement('div');
@@ -499,151 +578,109 @@ function disableStaticNoise() {
     document.body.classList.remove('static-active');
 }
 
-// Radial Blur
-function enableRadialBlur() {
-    const overlay = document.createElement('div');
-    overlay.className = 'radial-blur-overlay';
-    overlay.id = 'radial-overlay';
-    document.body.appendChild(overlay);
-    document.body.classList.add('radial-blur-active');
-}
+// Large project ticket parallax effect
+const projectTicketLarge = document.querySelector('.project-ticket-large');
 
-function disableRadialBlur() {
-    const overlay = document.getElementById('radial-overlay');
-    if (overlay) overlay.remove();
-    document.body.classList.remove('radial-blur-active');
-}
-
-// Ghost Effect
-function enableGhostEffect() {
-    const overlay = document.createElement('div');
-    overlay.className = 'ghost-echo-overlay';
-    overlay.id = 'ghost-overlay';
-    document.body.appendChild(overlay);
-    document.body.classList.add('ghost-active');
-}
-
-function disableGhostEffect() {
-    const overlay = document.getElementById('ghost-overlay');
-    if (overlay) overlay.remove();
-    document.body.classList.remove('ghost-active');
-}
-
-// Prism
-function enablePrism() {
-    const overlay = document.createElement('div');
-    overlay.className = 'prism-overlay';
-    overlay.id = 'prism-overlay';
-    document.body.appendChild(overlay);
-    document.body.classList.add('prism-active');
-}
-
-function disablePrism() {
-    const overlay = document.getElementById('prism-overlay');
-    if (overlay) overlay.remove();
-    document.body.classList.remove('prism-active');
-}
-
-// Cursor Feedback
-function enableCursorFeedback() {
-    const numTrails = 8;
-    cursorFeedbackPositions = Array(numTrails).fill({ x: 0, y: 0 });
+if (projectTicketLarge) {
+    let currentRotateX = 0;
+    let currentRotateY = 0;
+    let targetRotateX = 0;
+    let targetRotateY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    let animationFrame = null;
     
-    // Create trail elements
-    for (let i = 0; i < numTrails; i++) {
-        const trail = document.createElement('div');
-        trail.className = 'cursor-feedback-trail';
-        trail.style.opacity = (numTrails - i) / numTrails * 0.6;
-        trail.style.transform = 'translate(-50%, -50%)';
-        document.body.appendChild(trail);
-        cursorFeedbackTrails.push(trail);
+    const header = projectTicketLarge.querySelector('.ticket-header-large');
+    const title = projectTicketLarge.querySelector('.project-title-large');
+    const details = projectTicketLarge.querySelector('.ticket-meta');
+    const perforation = projectTicketLarge.querySelector('.ticket-perforation-large');
+    
+    function animate() {
+        // Smooth interpolation for floating effect
+        currentRotateX += (targetRotateX - currentRotateX) * 0.1;
+        currentRotateY += (targetRotateY - currentRotateY) * 0.1;
+        
+        projectTicketLarge.style.transform = `perspective(2000px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg) translateY(-8px) translateZ(15px) scale(1.01)`;
+        
+        // Layered parallax for each element based on depth
+        if (header) {
+            const moveX = mouseX * 0.3;
+            const moveY = mouseY * 0.3;
+            header.style.transform = `translateZ(60px) translate(${moveX}px, ${moveY}px)`;
+        }
+        
+        if (title) {
+            const moveX = mouseX * 0.5;
+            const moveY = mouseY * 0.5;
+            title.style.transform = `translateZ(100px) scale(1.02) translate(${moveX}px, ${moveY}px)`;
+        }
+        
+        if (details) {
+            const moveX = mouseX * 0.25;
+            const moveY = mouseY * 0.25;
+            details.style.transform = `translateZ(50px) translate(${moveX}px, ${moveY}px)`;
+        }
+        
+        if (perforation) {
+            const moveX = mouseX * 0.4;
+            perforation.style.transform = `translateZ(80px) translate(${moveX}px, 0)`;
+        }
+        
+        // Continue animation if not at target
+        if (Math.abs(targetRotateX - currentRotateX) > 0.01 || Math.abs(targetRotateY - currentRotateY) > 0.01) {
+            animationFrame = requestAnimationFrame(animate);
+        }
     }
     
-    // Track mouse
-    document.addEventListener('mousemove', updateCursorFeedbackMouse);
+    projectTicketLarge.addEventListener('mouseenter', function() {
+        this.style.transition = 'box-shadow 0.3s ease';
+    });
     
-    // Start animation
-    animateCursorFeedback();
-}
-
-function disableCursorFeedback() {
-    // Remove event listener
-    document.removeEventListener('mousemove', updateCursorFeedbackMouse);
-    
-    // Cancel animation
-    if (cursorFeedbackRaf) {
-        cancelAnimationFrame(cursorFeedbackRaf);
-        cursorFeedbackRaf = null;
-    }
-    
-    // Remove trail elements
-    cursorFeedbackTrails.forEach(trail => trail.remove());
-    cursorFeedbackTrails = [];
-    cursorFeedbackPositions = [];
-}
-
-let currentCursorPos = { x: 0, y: 0 };
-
-function updateCursorFeedbackMouse(e) {
-    currentCursorPos.x = e.clientX;
-    currentCursorPos.y = e.clientY;
-}
-
-function animateCursorFeedback() {
-    if (cursorFeedbackTrails.length === 0) return;
-    
-    // Update first position to current cursor
-    cursorFeedbackPositions[0] = { 
-        x: currentCursorPos.x, 
-        y: currentCursorPos.y 
-    };
-    
-    // Each trail follows the one in front with delay
-    for (let i = cursorFeedbackTrails.length - 1; i > 0; i--) {
-        const current = cursorFeedbackPositions[i];
-        const target = cursorFeedbackPositions[i - 1];
+    projectTicketLarge.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         
-        // Smooth interpolation with delay
-        cursorFeedbackPositions[i] = {
-            x: current.x + (target.x - current.x) * 0.15,
-            y: current.y + (target.y - current.y) * 0.15
-        };
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
         
-        // Update trail position
-        const trail = cursorFeedbackTrails[i];
-        trail.style.left = cursorFeedbackPositions[i].x + 'px';
-        trail.style.top = cursorFeedbackPositions[i].y + 'px';
-    }
-    
-    // Update first trail
-    const firstTrail = cursorFeedbackTrails[0];
-    firstTrail.style.left = cursorFeedbackPositions[0].x + 'px';
-    firstTrail.style.top = cursorFeedbackPositions[0].y + 'px';
-    
-    cursorFeedbackRaf = requestAnimationFrame(animateCursorFeedback);
-}
-
-function initializeEffects() {
-    // Check if in Dream mode
-    const currentTheme = getThemePreference();
-    const isDreamMode = currentTheme === 'dark' || 
-                       (currentTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    
-    if (!isDreamMode) return;
-    
-    // Initialize all effects from localStorage
-    Object.keys(activeEffects).forEach(effect => {
-        const saved = localStorage.getItem(effect) === 'true';
-        const effectItem = document.querySelector(`[data-effect="${effect}"]`);
+        // Calculate target rotation
+        targetRotateX = ((y - centerY) / centerY) * -4; // Slightly less dramatic for large ticket
+        targetRotateY = ((x - centerX) / centerX) * 4;
         
-        if (saved && effectItem) {
-            activeEffects[effect] = true;
-            enableEffect(effect);
-            effectItem.classList.add('active');
-            effectItem.querySelector('.toggle-indicator').textContent = 'On';
+        // Calculate mouse offset from center for parallax
+        mouseX = ((x - centerX) / centerX) * 25; // Max 25px movement (larger ticket)
+        mouseY = ((y - centerY) / centerY) * 25;
+        
+        // Start animation if not running
+        if (!animationFrame) {
+            animationFrame = requestAnimationFrame(animate);
         }
     });
+    
+    projectTicketLarge.addEventListener('mouseleave', function() {
+        // Cancel animation
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+            animationFrame = null;
+        }
+        
+        // Smooth return to rest
+        this.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease';
+        this.style.transform = 'perspective(2000px) rotateX(0deg) rotateY(0deg) translateY(0px) translateZ(0px) scale(1)';
+        
+        // Reset elements
+        if (header) header.style.transform = '';
+        if (title) title.style.transform = '';
+        if (details) details.style.transform = '';
+        if (perforation) perforation.style.transform = '';
+        
+        // Reset values
+        currentRotateX = 0;
+        currentRotateY = 0;
+        targetRotateX = 0;
+        targetRotateY = 0;
+        mouseX = 0;
+        mouseY = 0;
+    });
 }
-
-// Initialize all effects on page load
-initializeEffects();

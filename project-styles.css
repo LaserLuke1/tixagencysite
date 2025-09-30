@@ -29,27 +29,91 @@
     padding: 60px 50px;
     max-width: 800px;
     margin: 0 auto;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+    cursor: pointer;
+}
+
+.project-ticket-large:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Ticket Image for Large Ticket */
+.ticket-image-large {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1;
+    z-index: 1;
+}
+
+.ticket-image-large::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.5) 0%,
+        rgba(0, 0, 0, 0.3) 50%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+    opacity: 0.7;
 }
 
 .ticket-perforation-large {
     position: absolute;
     left: 0;
     right: 0;
-    top: 80px;
+    top: 90px;
     height: 1px;
     background-image: repeating-linear-gradient(
         to right,
         transparent,
         transparent 8px,
-        #000000 8px,
-        #000000 16px
+        #ffffff 8px,
+        #ffffff 16px
     );
+    z-index: 3;
+    transform-style: preserve-3d;
 }
 
 .ticket-content-large {
     display: flex;
     flex-direction: column;
     gap: 40px;
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    transform-style: preserve-3d;
+}
+
+.ticket-content-large * {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+/* Floating effects for large ticket elements */
+.project-ticket-large:hover .ticket-header-large {
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+}
+
+.project-ticket-large:hover .project-title-large {
+    text-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
+    letter-spacing: 3px;
+}
+
+.project-ticket-large:hover .ticket-meta {
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
 }
 
 .ticket-header-large {
@@ -59,6 +123,9 @@
     font-size: 12px;
     letter-spacing: 1.5px;
     font-weight: 600;
+    transform-style: preserve-3d;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    margin-bottom: 20px;
 }
 
 .project-title-large {
@@ -67,6 +134,8 @@
     letter-spacing: 2px;
     line-height: 1.1;
     text-align: center;
+    transform-style: preserve-3d;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .ticket-meta {
@@ -74,10 +143,12 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 30px;
-    border-top: 1px solid #000000;
+    border-top: 1px solid #ffffff;
     font-size: 12px;
     letter-spacing: 1px;
     text-transform: uppercase;
+    transform-style: preserve-3d;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Project Overview */

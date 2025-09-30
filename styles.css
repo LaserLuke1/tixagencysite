@@ -47,6 +47,43 @@ body {
     letter-spacing: 2px;
     color: #000000;
     text-decoration: none;
+    border: 3px solid #000000;
+    padding: 8px 16px;
+    display: inline-block;
+    transition: border-color 0.3s ease;
+}
+
+.nav-brand span {
+    display: inline-block;
+    opacity: 1;
+    transition: opacity 0.1s;
+}
+
+.nav-brand:hover span {
+    animation: type-flicker 0.06s ease-in-out;
+    animation-delay: calc(var(--i) * 0.05s);
+    animation-fill-mode: both;
+}
+
+@keyframes type-flicker {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    20% {
+        opacity: 0.3;
+    }
+    30% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 0.5;
+    }
+    50%, 100% {
+        opacity: 1;
+    }
 }
 
 .nav-menu {
@@ -600,11 +637,23 @@ body.prism-active .prism-overlay {
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: all 0.3s ease;
+    animation: breathe 3s ease-in-out infinite;
 }
 
 .cta-button:hover {
     background-color: #000000;
     color: #ffffff;
+    transform: scale(1.05);
+    animation: none;
+}
+
+@keyframes breathe {
+    0%, 100% { 
+        transform: scale(1);
+    }
+    50% { 
+        transform: scale(1.02);
+    }
 }
 
 /* Projects Section */
@@ -625,6 +674,7 @@ body.prism-active .prism-overlay {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 40px;
     padding: 20px 0;
+    perspective: 2000px;
 }
 
 /* Ticket Stub Styling */
@@ -640,12 +690,13 @@ body.prism-active .prism-overlay {
     border: 1px solid #000000;
     padding: 30px 25px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     height: 280px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
 }
 
 /* Ticket Image Styling */
@@ -693,21 +744,10 @@ body.prism-active .prism-overlay {
 }
 
 .ticket-stub:hover {
-    transform: translateY(-12px) rotate(-2deg) scale(1.05);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
-.ticket-stub:nth-child(even):hover {
-    transform: translateY(-12px) rotate(2deg) scale(1.05);
-}
-
-.ticket-stub:hover .ticket-title {
-    transform: translateX(3px);
-}
-
-.ticket-stub:hover .ticket-barcode {
-    transform: scaleX(1.1);
-}
+/* Removed - now handled in floating text effects above */
 
 /* Perforation Line */
 .ticket-perforation {
@@ -724,7 +764,8 @@ body.prism-active .prism-overlay {
         #000000 10px
     );
     z-index: 3;
-    transition: background-image 0.4s ease;
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
 }
 
 .ticket-stub:hover .ticket-perforation {
@@ -744,16 +785,34 @@ body.prism-active .prism-overlay {
     position: relative;
     z-index: 2;
     transition: all 0.4s ease;
+    transform-style: preserve-3d;
 }
 
 .ticket-stub:hover .ticket-content {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
     color: #ffffff;
 }
 
 .ticket-stub:hover .ticket-content * {
     color: #ffffff;
     border-color: #ffffff;
+}
+
+/* Floating text effects on hover - JS handles transforms */
+.ticket-stub:hover .ticket-header {
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+}
+
+.ticket-stub:hover .ticket-title {
+    text-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
+    letter-spacing: 3px;
+}
+
+.ticket-stub:hover .ticket-details {
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+}
+
+.ticket-stub:hover .ticket-barcode {
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
 }
 
 .ticket-header {
@@ -763,6 +822,8 @@ body.prism-active .prism-overlay {
     margin-bottom: 30px;
     font-size: 10px;
     letter-spacing: 1px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-style: preserve-3d;
 }
 
 .ticket-number {
@@ -780,7 +841,8 @@ body.prism-active .prism-overlay {
     line-height: 1.1;
     margin-bottom: auto;
     margin-top: 10px;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-style: preserve-3d;
 }
 
 .ticket-details {
@@ -790,6 +852,8 @@ body.prism-active .prism-overlay {
     margin-bottom: 15px;
     padding-top: 15px;
     border-top: 1px solid #000000;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-style: preserve-3d;
 }
 
 .ticket-category {
@@ -814,6 +878,7 @@ body.prism-active .prism-overlay {
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
+    transform-style: preserve-3d;
 }
 
 .ticket-barcode::after {
@@ -1041,11 +1106,9 @@ body.prism-active .prism-overlay {
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
@@ -1105,6 +1168,7 @@ body.dark-mode .navbar {
 
 body.dark-mode .nav-brand {
     color: #ffffff;
+    border-color: #ffffff;
 }
 
 body.dark-mode .nav-menu a {
@@ -1243,6 +1307,7 @@ body.light-mode .navbar {
 
 body.light-mode .nav-brand {
     color: #000000;
+    border-color: #000000;
 }
 
 body.light-mode .nav-menu a {
@@ -1378,6 +1443,7 @@ body.light-mode .dropdown-item:hover {
 
     body:not(.light-mode):not(.dark-mode) .nav-brand {
         color: #ffffff;
+        border-color: #ffffff;
     }
 
     body:not(.light-mode):not(.dark-mode) .nav-menu a {
