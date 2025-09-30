@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Agency - Creative Studio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">VIBE AGENCY</a>
+            <ul class="nav-menu">
+                <li><a href="#work">Work</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li class="settings-dropdown">
+                    <button class="settings-button">Settings</button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-header">Theme</div>
+                        <button class="dropdown-item" data-theme="light">Day</button>
+                        <button class="dropdown-item" data-theme="dark">Dream</button>
+                        <button class="dropdown-item" data-theme="auto">Auto (System)</button>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-header">Effects <span class="dream-only">(Dream only)</span></div>
+                        <button class="dropdown-item toggle-item" data-effect="cursor-shader">
+                            <span>RGB Drip</span>
+                            <span class="toggle-indicator">Off</span>
+                        </button>
+                        <button class="dropdown-item toggle-item" data-effect="wave-distortion">
+                            <span>Wave Distortion</span>
+                            <span class="toggle-indicator">Off</span>
+                        </button>
+                        <button class="dropdown-item toggle-item" data-effect="vhs-glitch">
+                            <span>VHS Glitch</span>
+                            <span class="toggle-indicator">Off</span>
+                        </button>
+                        <button class="dropdown-item toggle-item" data-effect="kaleidoscope">
+                            <span>Kaleidoscope</span>
+                            <span class="toggle-indicator">Off</span>
+                        </button>
+                        <button class="dropdown-item toggle-item" data-effect="static-noise">
+                            <span>Static Noise</span>
+                            <span class="toggle-indicator">Off</span>
+                        </button>
+                        <button class="dropdown-item toggle-item" data-effect="radial-blur">
+                            <span>Radial Blur</span>
+                            <span class="toggle-indicator">Off</span>
+                        </button>
+                        <button class="dropdown-item toggle-item" data-effect="ghost-effect">
+                            <span>Ghost Echo</span>
+                            <span class="toggle-indicator">Off</span>
+                        </button>
+                        <button class="dropdown-item toggle-item" data-effect="prism">
+                            <span>Prism Rainbow</span>
+                            <span class="toggle-indicator">Off</span>
+                        </button>
+                        <button class="dropdown-item toggle-item" data-effect="cursor-feedback">
+                            <span>Cursor Feedback</span>
+                            <span class="toggle-indicator">Off</span>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-video-container">
+            <iframe src="https://player.vimeo.com/video/659710735?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen class="hero-video"></iframe>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <h1 class="hero-title">Creative Excellence<br>Through Design</h1>
+            <p class="hero-subtitle">We craft memorable experiences that resonate with audiences worldwide</p>
+            <a href="#work" class="cta-button">View Our Work</a>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="work" class="projects-section">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            
+            <div class="tickets-grid">
+                <!-- Ticket Stub 1 -->
+                <a href="project.html" class="ticket-stub-link">
+                    <div class="ticket-stub" data-project="1">
+                        <div class="ticket-image" style="background-image: url('_assets/CW_Lobby_V7.webp');"></div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-content">
+                            <div class="ticket-header">
+                                <span class="ticket-number">#001</span>
+                                <span class="ticket-admit">ADMIT ONE</span>
+                            </div>
+                            <h3 class="ticket-title">MIDNIGHT<br>JAZZ FESTIVAL</h3>
+                            <div class="ticket-details">
+                                <span class="ticket-category">Branding & Identity</span>
+                                <span class="ticket-year">2024</span>
+                            </div>
+                            <div class="ticket-barcode">|  ||||  ||  ||||  ||  ||||</div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Ticket Stub 2 -->
+                <div class="ticket-stub" data-project="2">
+                    <div class="ticket-image" style="background-image: url('_assets/Vossler_led_volume.jpg');"></div>
+                    <div class="ticket-perforation"></div>
+                    <div class="ticket-content">
+                        <div class="ticket-header">
+                            <span class="ticket-number">#002</span>
+                            <span class="ticket-admit">ADMIT ONE</span>
+                        </div>
+                        <h3 class="ticket-title">ELECTRIC<br>DREAMS TOUR</h3>
+                        <div class="ticket-details">
+                            <span class="ticket-category">Digital Experience</span>
+                            <span class="ticket-year">2024</span>
+                        </div>
+                        <div class="ticket-barcode">||  ||  ||||  ||  ||||  ||</div>
+                    </div>
+                </div>
+
+                <!-- Ticket Stub 3 -->
+                <div class="ticket-stub" data-project="3">
+                    <div class="ticket-image" style="background-image: url('_assets/Tecate-pal-norte_thumb02.jpg');"></div>
+                    <div class="ticket-perforation"></div>
+                    <div class="ticket-content">
+                        <div class="ticket-header">
+                            <span class="ticket-number">#003</span>
+                            <span class="ticket-admit">ADMIT ONE</span>
+                        </div>
+                        <h3 class="ticket-title">URBAN<br>SOUNDSCAPE</h3>
+                        <div class="ticket-details">
+                            <span class="ticket-category">Art Direction</span>
+                            <span class="ticket-year">2024</span>
+                        </div>
+                        <div class="ticket-barcode">|||  ||||  ||  ||  ||||  ||</div>
+                    </div>
+                </div>
+
+                <!-- Ticket Stub 4 -->
+                <div class="ticket-stub" data-project="4">
+                    <div class="ticket-image" style="background-image: url('_assets/ATT_thumb.webp');"></div>
+                    <div class="ticket-perforation"></div>
+                    <div class="ticket-content">
+                        <div class="ticket-header">
+                            <span class="ticket-number">#004</span>
+                            <span class="ticket-admit">ADMIT ONE</span>
+                        </div>
+                        <h3 class="ticket-title">NEON<br>NIGHTS</h3>
+                        <div class="ticket-details">
+                            <span class="ticket-category">Event Production</span>
+                            <span class="ticket-year">2023</span>
+                        </div>
+                        <div class="ticket-barcode">||||  ||  ||||  ||  ||  ||||</div>
+                    </div>
+                </div>
+
+                <!-- Ticket Stub 5 -->
+                <div class="ticket-stub" data-project="5">
+                    <div class="ticket-image" style="background-image: url('_assets/IMG_4408.webp'); background-position: center top;"></div>
+                    <div class="ticket-perforation"></div>
+                    <div class="ticket-content">
+                        <div class="ticket-header">
+                            <span class="ticket-number">#005</span>
+                            <span class="ticket-admit">ADMIT ONE</span>
+                        </div>
+                        <h3 class="ticket-title">WAVELENGTH<br>SESSIONS</h3>
+                        <div class="ticket-details">
+                            <span class="ticket-category">Brand Strategy</span>
+                            <span class="ticket-year">2023</span>
+                        </div>
+                        <div class="ticket-barcode">||||  ||  ||  ||||  ||||  ||</div>
+                    </div>
+                </div>
+
+                <!-- Ticket Stub 6 -->
+                <div class="ticket-stub" data-project="6">
+                    <div class="ticket-image" style="background-image: url('_assets/Subaru_NN_photo01.jpg');"></div>
+                    <div class="ticket-perforation"></div>
+                    <div class="ticket-content">
+                        <div class="ticket-header">
+                            <span class="ticket-number">#006</span>
+                            <span class="ticket-admit">ADMIT ONE</span>
+                        </div>
+                        <h3 class="ticket-title">FREQUENCY<br>COLLECTIVE</h3>
+                        <div class="ticket-details">
+                            <span class="ticket-category">Web Design</span>
+                            <span class="ticket-year">2023</span>
+                        </div>
+                        <div class="ticket-barcode">||||  ||||  ||  ||  ||  ||||</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title">About Us</h2>
+                <p class="about-text">
+                    We're a creative agency specializing in brand identity, digital experiences, 
+                    and art direction. Our work is characterized by clean aesthetics, thoughtful 
+                    design, and a passion for creating experiences that leave lasting impressions.
+                </p>
+                <p class="about-text">
+                    With a team of talented designers, developers, and strategists, we bring 
+                    concepts to life through meticulous attention to detail and innovative thinking.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Let's Work Together</h2>
+            <div class="contact-info">
+                <a href="mailto:hello@vibeagency.com" class="contact-link">hello@vibeagency.com</a>
+                <div class="contact-details">
+                    <p>123 Creative Street</p>
+                    <p>New York, NY 10001</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Vibe Agency. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
