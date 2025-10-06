@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibe Agency - Creative Studio</title>
+    <title>Art Project - Creative Studio</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="nav-brand">
-                <span style="--i:0">V</span><span style="--i:1">I</span><span style="--i:2">B</span><span style="--i:3">E</span><span style="--i:4"> </span><span style="--i:5">A</span><span style="--i:6">G</span><span style="--i:7">E</span><span style="--i:8">N</span><span style="--i:9">C</span><span style="--i:10">Y</span>
+                <span style="--i:0">A</span><span style="--i:1">R</span><span style="--i:2">T</span><span style="--i:3"> </span><span style="--i:4">P</span><span style="--i:5">R</span><span style="--i:6">O</span><span style="--i:7">J</span><span style="--i:8">E</span><span style="--i:9">C</span><span style="--i:10">T</span>
             </a>
             <button class="hamburger" aria-label="Toggle menu">
                 <span></span>
@@ -29,7 +29,9 @@
                         <button class="dropdown-item" data-theme="light">Day</button>
                         <button class="dropdown-item" data-theme="dark">Night</button>
                         <button class="dropdown-item" data-theme="auto">Auto</button>
-                        <button class="dropdown-item" data-theme="dream">Dream</button>
+                        <!--<button class="dropdown-item" data-theme="dream">Dream</button>-->
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" id="worldClockButton">World Clock</button>
                     </div>
                 </li>
             </ul>
@@ -40,6 +42,42 @@
     <button class="enable-motion-btn" id="enableMotionBtn">
         <span>Tap to Enable Device Motion</span>
     </button>
+
+    <!-- World Clock Popup -->
+    <div class="world-clock-popup" id="worldClockPopup">
+        <div class="world-clock-content">
+            <div class="world-clock-header">
+                <h3>World Clock</h3>
+                <button class="world-clock-close" id="worldClockClose">&times;</button>
+            </div>
+            <div class="world-clock-times">
+                <div class="time-zone" data-timezone="Europe/Berlin">
+                    <span class="city">Berlin</span>
+                    <span class="time" id="time-berlin">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="Europe/London">
+                    <span class="city">London</span>
+                    <span class="time" id="time-london">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/New_York">
+                    <span class="city">New York</span>
+                    <span class="time" id="time-nyc">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Chicago">
+                    <span class="city">Chicago</span>
+                    <span class="time" id="time-chicago">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Denver">
+                    <span class="city">Denver</span>
+                    <span class="time" id="time-denver">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Los_Angeles">
+                    <span class="city">Los Angeles</span>
+                    <span class="time" id="time-la">--:--</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -61,7 +99,7 @@
             
             <div class="tickets-grid">
                 <!-- Ticket Stub 1 -->
-                <a href="project.html" class="ticket-stub-link">
+                <a href="projects/midnight-jazz.html" class="ticket-stub-link">
                     <div class="ticket-stub" data-project="1">
                         <div class="ticket-image" style="background-image: url('assets/CW_Lobby_V7.webp');"></div>
                         <div class="ticket-perforation"></div>
@@ -196,7 +234,7 @@
         <div class="container">
             <h2 class="section-title">Let's Work Together</h2>
             <div class="contact-info">
-                <a href="mailto:hello@vibeagency.com" class="contact-link">hello@vibeagency.com</a>
+                <a href="mailto:hello@artprojectllc.com" class="contact-link">hello@artprojectllc.com</a>
                 <div class="contact-details">
                     <p>123 Creative Street</p>
                     <p>New York, NY 10001</p>
@@ -208,10 +246,10 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Vibe Agency. All rights reserved.</p>
+            <p>&copy; 2025 Art Project LLC. All rights reserved.</p>
             <div class="social-links">
-                <a href="#">Instagram</a>
-                <a href="#">LinkedIn</a>
+                <a href="https://www.instagram.com/artproject.llc" target="_blank">Instagram</a>
+                <a href="https://www.linkedin.com/company/artproject-llc/?viewAsMember=true" target="_blank">LinkedIn</a>
             </div>
         </div>
     </footer>

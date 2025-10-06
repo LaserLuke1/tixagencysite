@@ -1,11 +1,17 @@
 // Effects Management - Declare at the top
-let cursorShaderElements = null;
 let activeEffects = {
-    'cursor-shader': false,
     'wave-distortion': false,
     'vhs-glitch': false,
     'static-noise': false
 };
+
+// World Clock variables
+let worldClockTimeout;
+let worldClockInterval;
+let inactivityTimer = null;
+
+// Grid highlight variables
+let gridHighlight = null;
 
 // Utility function
 function isMobile() {
@@ -62,7 +68,7 @@ function disableAllEffects() {
 
 function enableDreamEffects() {
     // Enable all Dream effects
-    const dreamEffects = ['cursor-shader', 'wave-distortion', 'vhs-glitch', 'static-noise'];
+    const dreamEffects = ['wave-distortion', 'vhs-glitch', 'static-noise'];
     dreamEffects.forEach(effect => {
         if (!activeEffects[effect]) {
             enableEffect(effect);
@@ -133,6 +139,7 @@ async function requestDeviceOrientation() {
 function enableDeviceParallax() {
     const tickets = document.querySelectorAll('.ticket-stub');
     const largeTicket = document.querySelector('.project-ticket-large');
+    const worldClockContent = document.querySelector('.world-clock-content');
     
     // On mobile, set all tickets to "active" state immediately
     if (isMobile()) {
@@ -195,6 +202,22 @@ function enableDeviceParallax() {
             if (title) title.style.transform = `translateZ(100px) scale(1.02) translate(${moveXLarge * 0.5}px, ${moveYLarge * 0.5}px)`;
             if (details) details.style.transform = `translateZ(50px) translate(${moveXLarge * 0.25}px, ${moveYLarge * 0.25}px)`;
             if (perforation) perforation.style.transform = `translateZ(80px) translate(${moveXLarge * 0.4}px, 0)`;
+        }
+        
+        // Apply to world clock if visible
+        if (worldClockContent && worldClockContent.closest('.world-clock-popup').classList.contains('show')) {
+            const header = worldClockContent.querySelector('.world-clock-header');
+            const timeZones = worldClockContent.querySelectorAll('.time-zone');
+            
+            worldClockContent.style.transform = `perspective(2000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            worldClockContent.style.transition = 'transform 0.1s ease-out';
+            
+            if (header) header.style.transform = `translateZ(60px) translate(${moveX * 0.3}px, ${moveY * 0.3}px)`;
+            timeZones.forEach((zone, index) => {
+                const isHovered = zone.matches(':hover');
+                const scale = isHovered ? 1.05 : 1;
+                zone.style.transform = `translateZ(${40 + index * 5}px) translate(${moveX * 0.25}px, ${moveY * 0.25}px) scale(${scale})`;
+            });
         }
     });
 }
@@ -591,75 +614,8 @@ if (navBrand) {
 }
 
 // Effects Management
-function getCursorShaderPreference() {
-    return localStorage.getItem('cursorShader') === 'true';
-}
-
-function setCursorShaderPreference(enabled) {
-    localStorage.setItem('cursorShader', enabled);
-}
-
-function createCursorShaders() {
-    // Create SVG filter for dripping effect
-    const svgNS = "http://www.w3.org/2000/svg";
-    const svg = document.createElementNS(svgNS, "svg");
-    svg.setAttribute("class", "shader-filters");
-    svg.innerHTML = `
-        <defs>
-            <filter id="drip">
-                <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="4" seed="2" result="turbulence"/>
-                <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="R" yChannelSelector="G"/>
-                <feGaussianBlur stdDeviation="1.5"/>
-            </filter>
-        </defs>
-    `;
-    document.body.appendChild(svg);
-    
-    // Create three full-screen shader overlays for RGB separation
-    const shaderRed = document.createElement('div');
-    shaderRed.className = 'cursor-shader cursor-shader-red';
-    
-    const shaderGreen = document.createElement('div');
-    shaderGreen.className = 'cursor-shader cursor-shader-green';
-    
-    const shaderBlue = document.createElement('div');
-    shaderBlue.className = 'cursor-shader cursor-shader-blue';
-    
-    document.body.appendChild(shaderRed);
-    document.body.appendChild(shaderGreen);
-    document.body.appendChild(shaderBlue);
-    
-    return { red: shaderRed, green: shaderGreen, blue: shaderBlue, svg: svg };
-}
-
-function enableCursorShader() {
-    if (!cursorShaderElements) {
-        cursorShaderElements = createCursorShaders();
-    }
-    
-    document.body.classList.add('shader-active');
-}
-
-function disableCursorShader() {
-    document.body.classList.remove('shader-active');
-    
-    // Remove elements
-    if (cursorShaderElements) {
-        cursorShaderElements.red.remove();
-        cursorShaderElements.green.remove();
-        cursorShaderElements.blue.remove();
-        if (cursorShaderElements.svg) {
-            cursorShaderElements.svg.remove();
-        }
-        cursorShaderElements = null;
-    }
-}
-
 function enableEffect(effect) {
     switch(effect) {
-        case 'cursor-shader':
-            enableCursorShader();
-            break;
         case 'wave-distortion':
             enableWaveDistortion();
             break;
@@ -674,9 +630,6 @@ function enableEffect(effect) {
 
 function disableEffect(effect) {
     switch(effect) {
-        case 'cursor-shader':
-            disableCursorShader();
-            break;
         case 'wave-distortion':
             disableWaveDistortion();
             break;
@@ -840,4 +793,264 @@ if (projectTicketLarge && !isMobile()) {
         mouseY = 0;
     });
 }
+
+// World Clock Functions
+function formatTime(date) {
+    return date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+}
+
+function updateWorldClock() {
+    const now = new Date();
+    
+    // NYC (Eastern Time)
+    const nycTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+    document.getElementById('time-nyc').textContent = formatTime(nycTime);
+    
+    // Chicago (Central Time)
+    const chicagoTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Chicago"}));
+    document.getElementById('time-chicago').textContent = formatTime(chicagoTime);
+    
+    // Denver (Mountain Time)
+    const denverTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Denver"}));
+    document.getElementById('time-denver').textContent = formatTime(denverTime);
+    
+    // Los Angeles (Pacific Time)
+    const laTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
+    document.getElementById('time-la').textContent = formatTime(laTime);
+    
+    // Berlin (Central European Time)
+    const berlinTime = new Date(now.toLocaleString("en-US", {timeZone: "Europe/Berlin"}));
+    document.getElementById('time-berlin').textContent = formatTime(berlinTime);
+    
+    // London (Greenwich Mean Time)
+    const londonTime = new Date(now.toLocaleString("en-US", {timeZone: "Europe/London"}));
+    document.getElementById('time-london').textContent = formatTime(londonTime);
+}
+
+function highlightUserTimezone() {
+    // Get user's timezone
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    
+    // Find and highlight matching timezone
+    const timeZones = document.querySelectorAll('.time-zone');
+    timeZones.forEach(zone => {
+        const zoneTimezone = zone.getAttribute('data-timezone');
+        if (zoneTimezone === userTimezone) {
+            zone.classList.add('user-timezone');
+        } else {
+            zone.classList.remove('user-timezone');
+        }
+    });
+}
+
+function showWorldClock() {
+    const popup = document.getElementById('worldClockPopup');
+    popup.classList.add('show');
+    
+    // Update times immediately
+    updateWorldClock();
+    
+    // Highlight user's timezone
+    highlightUserTimezone();
+    
+    // Start updating every second
+    worldClockInterval = setInterval(updateWorldClock, 1000);
+    
+    // Pause inactivity timer while clock is open
+    if (inactivityTimer) {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = null;
+    }
+}
+
+function hideWorldClock() {
+    const popup = document.getElementById('worldClockPopup');
+    popup.classList.remove('show');
+    
+    // Stop updating
+    if (worldClockInterval) {
+        clearInterval(worldClockInterval);
+        worldClockInterval = null;
+    }
+    
+    // Restart inactivity timer when clock is closed
+    resetInactivityTimer();
+}
+
+// Inactivity Timer - Show world clock after 30 seconds
+function resetInactivityTimer() {
+    // Clear existing timer
+    if (inactivityTimer) {
+        clearTimeout(inactivityTimer);
+    }
+    
+    // Set new timer
+    inactivityTimer = setTimeout(() => {
+        const popup = document.getElementById('worldClockPopup');
+        // Only show if not already visible
+        if (popup && !popup.classList.contains('show')) {
+            showWorldClock();
+        }
+    }, 30000); // 30 seconds
+}
+
+// Reset timer on user activity
+function setupInactivityTracking() {
+    const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+    
+    activityEvents.forEach(event => {
+        document.addEventListener(event, () => {
+            const popup = document.getElementById('worldClockPopup');
+            // Only reset timer if world clock is not currently shown
+            if (popup && !popup.classList.contains('show')) {
+                resetInactivityTimer();
+            }
+        }, { passive: true });
+    });
+    
+    // Start the initial timer
+    resetInactivityTimer();
+}
+
+function initializeWorldClock() {
+    // Set up open button
+    const openBtn = document.getElementById('worldClockButton');
+    if (openBtn) {
+        openBtn.addEventListener('click', () => {
+            showWorldClock();
+            // Close settings dropdown
+            const settingsDropdown = document.querySelector('.settings-dropdown');
+            if (settingsDropdown) {
+                settingsDropdown.classList.remove('active');
+            }
+        });
+    }
+    
+    // Set up close button
+    const closeBtn = document.getElementById('worldClockClose');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', hideWorldClock);
+    }
+    
+    // Set up click outside to close
+    const popup = document.getElementById('worldClockPopup');
+    if (popup) {
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup) {
+                hideWorldClock();
+            }
+        });
+    }
+}
+
+// World Clock parallax effect (desktop only)
+function initializeWorldClockParallax() {
+    if (isMobile()) return; // Skip on mobile - device orientation handles it
+    
+    const worldClockContent = document.querySelector('.world-clock-content');
+    if (!worldClockContent) return;
+    
+    let currentRotateX = 0;
+    let currentRotateY = 0;
+    let targetRotateX = 0;
+    let targetRotateY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    let animationFrame = null;
+    let isMouseOver = false;
+    
+    function animate() {
+        currentRotateX += (targetRotateX - currentRotateX) * 0.1;
+        currentRotateY += (targetRotateY - currentRotateY) * 0.1;
+        
+        worldClockContent.style.transform = `perspective(2000px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
+        
+        const header = worldClockContent.querySelector('.world-clock-header');
+        const timeZones = worldClockContent.querySelectorAll('.time-zone');
+        
+        if (header) {
+            const moveX = mouseX * 0.3;
+            const moveY = mouseY * 0.3;
+            header.style.transform = `translateZ(60px) translate(${moveX}px, ${moveY}px)`;
+        }
+        
+        timeZones.forEach((zone, index) => {
+            const moveX = mouseX * 0.25;
+            const moveY = mouseY * 0.25;
+            const isHovered = zone.matches(':hover');
+            const scale = isHovered ? 1.05 : 1;
+            zone.style.transform = `translateZ(${40 + index * 5}px) translate(${moveX}px, ${moveY}px) scale(${scale})`;
+        });
+        
+        // Continue animation while mouse is over
+        if (isMouseOver) {
+            animationFrame = requestAnimationFrame(animate);
+        } else {
+            animationFrame = null;
+        }
+    }
+    
+    worldClockContent.addEventListener('mouseenter', function() {
+        this.style.transition = 'box-shadow 0.3s ease';
+        isMouseOver = true;
+        if (!animationFrame) {
+            animationFrame = requestAnimationFrame(animate);
+        }
+    });
+    
+    worldClockContent.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        targetRotateX = ((y - centerY) / centerY) * -4;
+        targetRotateY = ((x - centerX) / centerX) * 4;
+        
+        mouseX = ((x - centerX) / centerX) * 15;
+        mouseY = ((y - centerY) / centerY) * 15;
+        
+        if (!animationFrame && isMouseOver) {
+            animationFrame = requestAnimationFrame(animate);
+        }
+    });
+    
+    worldClockContent.addEventListener('mouseleave', function() {
+        isMouseOver = false;
+        
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+            animationFrame = null;
+        }
+        
+        this.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease';
+        this.style.transform = 'perspective(2000px) rotateX(0deg) rotateY(0deg)';
+        
+        const header = this.querySelector('.world-clock-header');
+        const timeZones = this.querySelectorAll('.time-zone');
+        
+        if (header) header.style.transform = '';
+        timeZones.forEach(zone => zone.style.transform = '');
+        
+        currentRotateX = 0;
+        currentRotateY = 0;
+        targetRotateX = 0;
+        targetRotateY = 0;
+        mouseX = 0;
+        mouseY = 0;
+    });
+}
+
+// Initialize everything when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initializeWorldClock();
+    initializeWorldClockParallax();
+    setupInactivityTracking();
+});
  
