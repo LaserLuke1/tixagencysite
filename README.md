@@ -7,12 +7,17 @@ A creative studio portfolio with ticket-stub styled project cards featuring para
 ```
 ticket_site/
 ├── index.html              # Homepage with featured projects
+├── cv.html                 # CV/Resume page
 ├── projects/               # Individual project pages
-│   └── midnight-jazz.html  # Example project page
+│   ├── midnight-jazz.html  # Example project page
+│   └── _template.html      # Project template
 ├── projects-data.js        # Project metadata & configuration
+├── cv-data.js              # CV entries data
 ├── styles.css              # Global styles
 ├── project-styles.css      # Project page specific styles
+├── cv-styles.css           # CV page specific styles
 ├── script.js               # Main JavaScript
+├── cv-script.js            # CV filtering JavaScript
 ├── assets/                 # Images and media
 │   ├── CW_Lobby_V7.webp
 │   ├── Vossler_led_volume.jpg
@@ -89,6 +94,8 @@ ticket_site/
 - **World Clock**: Auto-appears after 30s inactivity
 - **Polka Dot Backgrounds**: Consistent pattern across all sections
 - **Ticket Stub Design**: Unique project card styling with perforation details
+- **CV Page**: Filterable list of shows, performances, and exhibitions
+- **Responsive Design**: Mobile-first approach with touch support
 
 ## Theme Configuration
 
@@ -101,18 +108,44 @@ Users can select themes via Settings dropdown:
 
 Control which projects appear on homepage by setting `featured: true/false` in `projects-data.js`.
 
+## Managing CV Entries
+
+Add new shows/performances/exhibitions to `cv-data.js`:
+
+```javascript
+{
+    id: 'unique-slug',
+    number: '025',
+    type: 'Exhibition', // Exhibition, Performance, or Show
+    title: 'Your Event Name',
+    venue: 'Venue Name, City',
+    date: 'Month Year',
+    year: 2025,
+    description: 'Brief description of the event.'
+}
+```
+
+The CV page automatically:
+- Groups entries by year (newest first)
+- Provides filtering by type (All, Exhibition, Performance, Show)
+- Maintains ticket stub aesthetic
+- Adapts to theme modes
+
 ## Next Steps
 
 Consider implementing:
 1. Dynamic project generation from `projects-data.js`
-2. Project filtering/categories
-3. Search functionality
+2. Dynamic CV generation from `cv-data.js`
+3. Search functionality across projects and CV
 4. Project pagination
 5. Load more/infinite scroll
+6. Export CV as PDF
 
 ## Browser Support
 
 - Modern browsers (Chrome, Firefox, Safari, Edge)
 - Mobile responsive
 - iOS device orientation support with permission handling
+
+
 
