@@ -52,6 +52,7 @@ body {
     display: inline-block;
     position: relative;
     transition: all 0.3s ease;
+    font-family: "futura-pt", sans-serif;
 }
 
 .nav-brand::before {

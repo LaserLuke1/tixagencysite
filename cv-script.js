@@ -61,6 +61,32 @@ function createEntryElement(entry, yearNumber) {
     entryDiv.setAttribute('data-category', entry.category.toLowerCase());
     
     const locationHTML = entry.location ? `<span class="entry-location">${entry.location}</span>` : '';
+    const isMobile = window.innerWidth <= 768;
+    
+    let detailsHTML;
+    if (isMobile) {
+        // Mobile: location under venue
+        detailsHTML = `
+            <div class="entry-details">
+                <div class="entry-venue-wrapper">
+                    <span class="entry-venue"><span class="venue-label">Venue:</span> ${entry.venue}</span>
+                    ${locationHTML}
+                </div>
+                <span class="entry-date">${entry.date}</span>
+            </div>
+        `;
+    } else {
+        // Desktop: location under date
+        detailsHTML = `
+            <div class="entry-details">
+                <span class="entry-venue"><span class="venue-label">Venue:</span> ${entry.venue}</span>
+                <div class="entry-date-location">
+                    <span class="entry-date">${entry.date}</span>
+                    ${locationHTML}
+                </div>
+            </div>
+        `;
+    }
     
     entryDiv.innerHTML = `
         <div class="entry-header">
@@ -70,13 +96,7 @@ function createEntryElement(entry, yearNumber) {
             </div>
         </div>
         <h3 class="entry-title">${entry.title}</h3>
-        <div class="entry-details">
-            <span class="entry-venue"><span class="venue-label">Venue:</span> ${entry.venue}</span>
-            <div class="entry-date-location">
-                <span class="entry-date">${entry.date}</span>
-                ${locationHTML}
-            </div>
-        </div>
+        ${detailsHTML}
         <p class="entry-description">${entry.description}</p>
     `;
     

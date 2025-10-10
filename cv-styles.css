@@ -313,7 +313,18 @@
     .entry-details {
         flex-direction: column;
         align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .entry-venue-wrapper {
+        display: flex;
+        flex-direction: column;
         gap: 3px;
+    }
+    
+    .entry-venue-wrapper .entry-location {
+        font-size: 11px;
+        margin-top: 2px;
     }
 
     .cv-filters {

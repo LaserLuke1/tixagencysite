@@ -900,7 +900,12 @@ function resetInactivityTimer() {
 
 // Reset timer on user activity
 function setupInactivityTracking() {
-    const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+    // Skip inactivity tracking on mobile
+    if (isMobile()) {
+        return;
+    }
+    
+    const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'click'];
     
     activityEvents.forEach(event => {
         document.addEventListener(event, () => {
