@@ -881,7 +881,7 @@ function hideWorldClock() {
     resetInactivityTimer();
 }
 
-// Inactivity Timer - Show world clock after 30 seconds
+// Inactivity Timer - Show world clock after 90 seconds
 function resetInactivityTimer() {
     // Clear existing timer
     if (inactivityTimer) {
@@ -895,7 +895,7 @@ function resetInactivityTimer() {
         if (popup && !popup.classList.contains('show')) {
             showWorldClock();
         }
-    }, 30000); // 30 seconds
+    }, 90000); // 90 seconds
 }
 
 // Reset timer on user activity

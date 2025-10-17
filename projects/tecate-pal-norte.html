@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecate Pal Norte - Art Project</title>
+    <link rel="icon" type="image/png" href="../assets/ap_favicon_square_32x32px-1.png">
+    <link rel="stylesheet" href="https://use.typekit.net/vts0ana.css">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../project-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="nav-brand">
+                <span style="--i:0">A</span><span style="--i:1">R</span><span style="--i:2">T</span><span style="--i:3"> </span><span style="--i:4">P</span><span style="--i:5">R</span><span style="--i:6">O</span><span style="--i:7">J</span><span style="--i:8">E</span><span style="--i:9">C</span><span style="--i:10">T</span>
+            </a>
+            <button class="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="../index.html#work">Work</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../cv.html">CV</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+                <li class="settings-dropdown">
+                    <button class="settings-button">Settings</button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-header">Theme</div>
+                        <button class="dropdown-item" data-theme="light">Day</button>
+                        <button class="dropdown-item" data-theme="dark">Night</button>
+                        <button class="dropdown-item" data-theme="auto">Auto</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Enable Motion Button for iOS -->
+    <button class="enable-motion-btn" id="enableMotionBtn">
+        <span>Tap to Enable Device Motion</span>
+    </button>
+
+    <!-- World Clock Popup -->
+    <div class="world-clock-popup" id="worldClockPopup">
+        <div class="world-clock-content">
+            <div class="world-clock-header">
+                <h3>World Clock</h3>
+                <button class="world-clock-close" id="worldClockClose">&times;</button>
+            </div>
+            <div class="world-clock-times">
+                <div class="time-zone" data-timezone="Europe/Berlin">
+                    <span class="city">Berlin</span>
+                    <span class="time" id="time-berlin">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="Europe/London">
+                    <span class="city">London</span>
+                    <span class="time" id="time-london">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/New_York">
+                    <span class="city">New York</span>
+                    <span class="time" id="time-nyc">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Chicago">
+                    <span class="city">Chicago</span>
+                    <span class="time" id="time-chicago">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Denver">
+                    <span class="city">Denver</span>
+                    <span class="time" id="time-denver">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Los_Angeles">
+                    <span class="city">Los Angeles</span>
+                    <span class="time" id="time-la">--:--</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Hero -->
+    <section class="project-hero">
+        <div class="container">
+            <a href="../index.html#work" class="back-link">← Back to Projects</a>
+            
+            <div class="project-ticket-large">
+                <div class="ticket-image-large" style="background-image: url('../assets/Tecate_pal_norte_thumb.jpg');"></div>
+                <div class="ticket-perforation-large"></div>
+                <div class="ticket-content-large">
+                    <div class="ticket-header-large">
+                        <span class="ticket-number">#005</span>
+                        <span class="ticket-admit">ADMIT ONE</span>
+                    </div>
+                    <h1 class="project-title-large">TECATE PAL<br>NORTE</h1>
+                    <div class="ticket-meta">
+                        <span class="ticket-category">Festivals & Live Events</span>
+                        <span class="ticket-year">2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section class="project-overview">
+        <div class="container">
+            <div class="overview-grid">
+                <div class="overview-item">
+                    <h3>Client</h3>
+                    <p>Tecate & Pal Norte Festival</p>
+                </div>
+                <div class="overview-item">
+                    <h3>Services</h3>
+                    <p>Festival Design<br>Stage Production<br>Brand Integration</p>
+                </div>
+                <div class="overview-item">
+                    <h3>Year</h3>
+                    <p>2024</p>
+                </div>
+                <div class="overview-item">
+                    <h3>Location</h3>
+                    <p>Monterrey, Mexico</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Description -->
+    <section class="project-description">
+        <div class="container">
+            <div class="description-content">
+                <h2>The Challenge</h2>
+                <p>
+                    Tecate Pal Norte needed to create an immersive festival experience that would celebrate Mexican culture and music while providing an unforgettable experience for festival-goers. The challenge was to design and implement stage productions, interactive installations, and brand activations that would enhance the festival atmosphere and create lasting memories for attendees.
+                </p>
+                
+                <h2>Our Approach</h2>
+                <p>
+                    We developed a comprehensive festival experience featuring custom stage designs, interactive lighting installations, and immersive brand activations that celebrated the vibrant energy of Mexican music and culture. The design incorporated local artistic elements, cutting-edge technology, and sustainable practices to create an authentic and memorable festival experience that honored both tradition and innovation.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Images -->
+    <section class="project-images">
+        <div class="container">
+            <!-- Large Image -->
+            <div class="image-block">
+                <div class="placeholder-image large">
+                    <div class="placeholder-content">
+                        <p>Main Stage Production</p>
+                        <span>Festival main stage during performance</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Column -->
+            <div class="image-grid-2">
+                <div class="image-block">
+                    <div class="placeholder-image">
+                        <div class="placeholder-content">
+                            <p>Interactive Installations</p>
+                            <span>Festival-goer engagement zones</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-block">
+                    <div class="placeholder-image">
+                        <div class="placeholder-content">
+                            <p>Brand Activation Areas</p>
+                            <span>Tecate brand experience zones</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Width -->
+            <div class="image-block">
+                <div class="placeholder-image wide">
+                    <div class="placeholder-content">
+                        <p>Festival Overview</p>
+                        <span>Complete festival grounds and experience</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Three Column -->
+            <div class="image-grid-3">
+                <div class="image-block">
+                    <div class="placeholder-image square">
+                        <div class="placeholder-content">
+                            <p>Lighting Design</p>
+                            <span>Dynamic stage lighting systems</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-block">
+                    <div class="placeholder-image square">
+                        <div class="placeholder-content">
+                            <p>Cultural Elements</p>
+                            <span>Traditional Mexican design integration</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-block">
+                    <div class="placeholder-image square">
+                        <div class="placeholder-content">
+                            <p>Audience Experience</p>
+                            <span>Festival-goer interactions</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Results -->
+    <section class="project-results">
+        <div class="container">
+            <h2 class="section-title">Results</h2>
+            <div class="results-grid">
+                <div class="result-item">
+                    <div class="result-number">150K+</div>
+                    <p>Festival attendees engaged</p>
+                </div>
+                <div class="result-item">
+                    <div class="result-number">3</div>
+                    <p>Days of continuous operation</p>
+                </div>
+                <div class="result-item">
+                    <div class="result-number">25+</div>
+                    <p>International artists featured</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Project -->
+    <section class="next-project">
+        <div class="container">
+            <div class="next-project-content">
+                <span class="next-label">Next Project</span>
+                <a href="vossler-led-volume.html" class="next-project-link">
+                    <h3>Vossler LED Volume</h3>
+                    <span class="next-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Art Project LLC. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/artproject.llc" target="_blank">Instagram</a>
+                <a href="https://www.linkedin.com/company/artproject-llc/?viewAsMember=true" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

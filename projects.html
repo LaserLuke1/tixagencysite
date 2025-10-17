@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Art Project</title>
+    <link rel="icon" type="image/png" href="assets/ap_favicon_square_32x32px-1.png">
+    <link rel="stylesheet" href="https://use.typekit.net/vts0ana.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="project-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <span style="--i:0">A</span><span style="--i:1">R</span><span style="--i:2">T</span><span style="--i:3"> </span><span style="--i:4">P</span><span style="--i:5">R</span><span style="--i:6">O</span><span style="--i:7">J</span><span style="--i:8">E</span><span style="--i:9">C</span><span style="--i:10">T</span>
+            </a>
+            <button class="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html#work">Work</a></li>
+                <li><a href="projects.html" class="active">Projects</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="cv.html">CV</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li class="settings-dropdown">
+                    <button class="settings-button">Settings</button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-header">Theme</div>
+                        <button class="dropdown-item" data-theme="light">Day</button>
+                        <button class="dropdown-item" data-theme="dark">Night</button>
+                        <button class="dropdown-item" data-theme="auto">Auto</button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" id="worldClockButton">World Clock</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Enable Motion Button for iOS -->
+    <button class="enable-motion-btn" id="enableMotionBtn">
+        <span>Tap to Enable Device Motion</span>
+    </button>
+
+    <!-- World Clock Popup -->
+    <div class="world-clock-popup" id="worldClockPopup">
+        <div class="world-clock-content">
+            <div class="world-clock-header">
+                <h3>World Clock</h3>
+                <button class="world-clock-close" id="worldClockClose">&times;</button>
+            </div>
+            <div class="world-clock-times">
+                <div class="time-zone" data-timezone="Europe/Berlin">
+                    <span class="city">Berlin</span>
+                    <span class="time" id="time-berlin">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="Europe/London">
+                    <span class="city">London</span>
+                    <span class="time" id="time-london">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/New_York">
+                    <span class="city">New York</span>
+                    <span class="time" id="time-nyc">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Chicago">
+                    <span class="city">Chicago</span>
+                    <span class="time" id="time-chicago">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Denver">
+                    <span class="city">Denver</span>
+                    <span class="time" id="time-denver">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Los_Angeles">
+                    <span class="city">Los Angeles</span>
+                    <span class="time" id="time-la">--:--</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Hero -->
+    <section class="projects-hero">
+        <div class="container">
+            <h1 class="projects-title">All Projects</h1>
+            <p class="projects-subtitle">Explore our complete portfolio of creative experiences</p>
+        </div>
+    </section>
+
+    <!-- Category Filter -->
+    <section class="category-filter">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="all">All Projects</button>
+                <button class="filter-btn" data-category="experiential-activations">Experiential Activations</button>
+                <button class="filter-btn" data-category="corporate-installations">Corporate Installations</button>
+                <button class="filter-btn" data-category="experiential-retail">Experiential Retail</button>
+                <button class="filter-btn" data-category="festivals-live-events">Festivals & Live Events</button>
+                <button class="filter-btn" data-category="production-volume-tracking">Production & Volume Tracking</button>
+                <button class="filter-btn" data-category="interactive-art-installations">Interactive Art & Installations</button>
+                <button class="filter-btn" data-category="research-tools">Research & Tools</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <div class="tickets-grid" id="projects-grid">
+                
+                <!-- Experiential Activations -->
+                <div class="project-ticket" data-category="experiential-activations">
+                    <a href="projects/star-wars-outlaws.html" class="ticket-stub-link">
+                        <div class="ticket-stub" data-project="1">
+                            <div class="ticket-image" style="background-image: url('assets/star_wars_outlaws_thumb.webp'); background-position: center 30%;"></div>
+                            <div class="ticket-perforation"></div>
+                            <div class="ticket-content">
+                                <div class="ticket-header">
+                                    <span class="ticket-number">#001</span>
+                                    <span class="ticket-admit">ADMIT ONE</span>
+                                </div>
+                                <h3 class="ticket-title">STAR WARS<br>OUTLAWS</h3>
+                                <div class="ticket-details">
+                                    <span class="ticket-category">Experiential Activations</span>
+                                    <span class="ticket-year">2024</span>
+                                </div>
+                                <div class="ticket-barcode">|  ||||  ||  ||||  ||  ||||</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="project-ticket" data-category="experiential-activations">
+                    <a href="projects/subaru-autoshow.html" class="ticket-stub-link">
+                        <div class="ticket-stub" data-project="2">
+                            <div class="ticket-image" style="background-image: url('assets/subaru_autoshow_thumb.jpg');"></div>
+                            <div class="ticket-perforation"></div>
+                            <div class="ticket-content">
+                                <div class="ticket-header">
+                                    <span class="ticket-number">#002</span>
+                                    <span class="ticket-admit">ADMIT ONE</span>
+                                </div>
+                                <h3 class="ticket-title">SUBARU<br>AUTOSHOW</h3>
+                                <div class="ticket-details">
+                                    <span class="ticket-category">Experiential Activations</span>
+                                    <span class="ticket-year">2024</span>
+                                </div>
+                                <div class="ticket-barcode">||  ||  ||||  ||  ||||  ||</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Corporate Installations -->
+                <div class="project-ticket" data-category="corporate-installations">
+                    <a href="projects/cushman-wakefield.html" class="ticket-stub-link">
+                        <div class="ticket-stub" data-project="3">
+                            <div class="ticket-image" style="background-image: url('assets/cushman_wakefield_thumb.webp');"></div>
+                            <div class="ticket-perforation"></div>
+                            <div class="ticket-content">
+                                <div class="ticket-header">
+                                    <span class="ticket-number">#003</span>
+                                    <span class="ticket-admit">ADMIT ONE</span>
+                                </div>
+                                <h3 class="ticket-title">CUSHMAN<br>WAKEFIELD</h3>
+                                <div class="ticket-details">
+                                    <span class="ticket-category">Corporate Installations</span>
+                                    <span class="ticket-year">2024</span>
+                                </div>
+                                <div class="ticket-barcode">|||  ||||  ||  ||  ||||  ||</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Experiential Retail -->
+                <div class="project-ticket" data-category="experiential-retail">
+                    <a href="projects/att-flagship-retail.html" class="ticket-stub-link">
+                        <div class="ticket-stub" data-project="4">
+                            <div class="ticket-image" style="background-image: url('assets/att_thumb.webp');"></div>
+                            <div class="ticket-perforation"></div>
+                            <div class="ticket-content">
+                                <div class="ticket-header">
+                                    <span class="ticket-number">#004</span>
+                                    <span class="ticket-admit">ADMIT ONE</span>
+                                </div>
+                                <h3 class="ticket-title">AT&T FLAGSHIP<br>RETAIL</h3>
+                                <div class="ticket-details">
+                                    <span class="ticket-category">Experiential Retail</span>
+                                    <span class="ticket-year">2024</span>
+                                </div>
+                                <div class="ticket-barcode">||||  ||  ||||  ||  ||  ||||</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Festivals & Live Events -->
+                <div class="project-ticket" data-category="festivals-live-events">
+                    <a href="projects/tecate-pal-norte.html" class="ticket-stub-link">
+                        <div class="ticket-stub" data-project="5">
+                            <div class="ticket-image" style="background-image: url('assets/Tecate_pal_norte_thumb.jpg');"></div>
+                            <div class="ticket-perforation"></div>
+                            <div class="ticket-content">
+                                <div class="ticket-header">
+                                    <span class="ticket-number">#005</span>
+                                    <span class="ticket-admit">ADMIT ONE</span>
+                                </div>
+                                <h3 class="ticket-title">TECATE PAL<br>NORTE</h3>
+                                <div class="ticket-details">
+                                    <span class="ticket-category">Festivals & Live Events</span>
+                                    <span class="ticket-year">2024</span>
+                                </div>
+                                <div class="ticket-barcode">||||  ||  ||  ||||  ||||  ||</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="project-ticket" data-category="festivals-live-events">
+                    <div class="ticket-stub" data-project="6">
+                        <div class="ticket-image" style="background-image: url('assets/soho-house_thumb.jpg');"></div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-content">
+                            <div class="ticket-header">
+                                <span class="ticket-number">#006</span>
+                                <span class="ticket-admit">ADMIT ONE</span>
+                            </div>
+                            <h3 class="ticket-title">SOHO HOUSE<br>EVENTS</h3>
+                            <div class="ticket-details">
+                                <span class="ticket-category">Festivals & Live Events</span>
+                                <span class="ticket-year">2024</span>
+                            </div>
+                            <div class="ticket-barcode">||||  ||||  ||  ||  ||  ||||</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-ticket" data-category="festivals-live-events">
+                    <div class="ticket-stub" data-project="7">
+                        <div class="ticket-image" style="background-image: url('assets/radius-chicago_thumb.jpg');"></div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-content">
+                            <div class="ticket-header">
+                                <span class="ticket-number">#007</span>
+                                <span class="ticket-admit">ADMIT ONE</span>
+                            </div>
+                            <h3 class="ticket-title">RADIUS<br>CHICAGO</h3>
+                            <div class="ticket-details">
+                                <span class="ticket-category">Festivals & Live Events</span>
+                                <span class="ticket-year">2024</span>
+                            </div>
+                            <div class="ticket-barcode">|||||  ||  ||||  ||  ||||  ||</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-ticket" data-category="festivals-live-events">
+                    <div class="ticket-stub" data-project="8">
+                        <div class="ticket-image" style="background-image: url('assets/datfest_thumb.jpg');"></div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-content">
+                            <div class="ticket-header">
+                                <span class="ticket-number">#008</span>
+                                <span class="ticket-admit">ADMIT ONE</span>
+                            </div>
+                            <h3 class="ticket-title">DATFEST<br>FESTIVAL</h3>
+                            <div class="ticket-details">
+                                <span class="ticket-category">Festivals & Live Events</span>
+                                <span class="ticket-year">2024</span>
+                            </div>
+                            <div class="ticket-barcode">||||||  ||  ||||  ||  ||||  ||</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-ticket" data-category="festivals-live-events">
+                    <div class="ticket-stub" data-project="9">
+                        <div class="ticket-image" style="background-image: url('assets/dg-alys-beach_thumb.jpg');"></div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-content">
+                            <div class="ticket-header">
+                                <span class="ticket-number">#009</span>
+                                <span class="ticket-admit">ADMIT ONE</span>
+                            </div>
+                            <h3 class="ticket-title">DG ALYS<br>BEACH</h3>
+                            <div class="ticket-details">
+                                <span class="ticket-category">Festivals & Live Events</span>
+                                <span class="ticket-year">2024</span>
+                            </div>
+                            <div class="ticket-barcode">|||||||  ||  ||||  ||  ||||  ||</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Production & Volume Tracking -->
+                <div class="project-ticket" data-category="production-volume-tracking">
+                    <a href="projects/vossler-led-volume.html" class="ticket-stub-link">
+                        <div class="ticket-stub" data-project="10">
+                            <div class="ticket-image" style="background-image: url('assets/Vossler_led_volume_thumb.jpg');"></div>
+                            <div class="ticket-perforation"></div>
+                            <div class="ticket-content">
+                                <div class="ticket-header">
+                                    <span class="ticket-number">#010</span>
+                                    <span class="ticket-admit">ADMIT ONE</span>
+                                </div>
+                                <h3 class="ticket-title">VOSSLER<br>LED VOLUME</h3>
+                                <div class="ticket-details">
+                                    <span class="ticket-category">Production & Volume Tracking</span>
+                                    <span class="ticket-year">2024</span>
+                                </div>
+                                <div class="ticket-barcode">||||||||  ||  ||||  ||  ||||  ||</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Interactive Art & Installations -->
+                <div class="project-ticket" data-category="interactive-art-installations">
+                    <div class="ticket-stub" data-project="11">
+                        <div class="ticket-image" style="background-image: url('assets/gallery-work_thumb.jpg');"></div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-content">
+                            <div class="ticket-header">
+                                <span class="ticket-number">#011</span>
+                                <span class="ticket-admit">ADMIT ONE</span>
+                            </div>
+                            <h3 class="ticket-title">GALLERY<br>EXHIBITIONS</h3>
+                            <div class="ticket-details">
+                                <span class="ticket-category">Interactive Art & Installations</span>
+                                <span class="ticket-year">2024</span>
+                            </div>
+                            <div class="ticket-barcode">|||||||||  ||  ||||  ||  ||||  ||</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-ticket" data-category="interactive-art-installations">
+                    <div class="ticket-stub" data-project="12">
+                        <div class="ticket-image" style="background-image: url('assets/digital-art-pieces_thumb.jpg');"></div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-content">
+                            <div class="ticket-header">
+                                <span class="ticket-number">#012</span>
+                                <span class="ticket-admit">ADMIT ONE</span>
+                            </div>
+                            <h3 class="ticket-title">DIGITAL<br>ART PIECES</h3>
+                            <div class="ticket-details">
+                                <span class="ticket-category">Interactive Art & Installations</span>
+                                <span class="ticket-year">2024</span>
+                            </div>
+                            <div class="ticket-barcode">||||||||||  ||  ||||  ||  ||||  ||</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-ticket" data-category="interactive-art-installations">
+                    <div class="ticket-stub" data-project="13">
+                        <div class="ticket-image" style="background-image: url('assets/prototypes_thumb.jpg');"></div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-content">
+                            <div class="ticket-header">
+                                <span class="ticket-number">#013</span>
+                                <span class="ticket-admit">ADMIT ONE</span>
+                            </div>
+                            <h3 class="ticket-title">INTERACTIVE<br>PROTOTYPES</h3>
+                            <div class="ticket-details">
+                                <span class="ticket-category">Interactive Art & Installations</span>
+                                <span class="ticket-year">2024</span>
+                            </div>
+                            <div class="ticket-barcode">|||||||||||  ||  ||||  ||  ||||  ||</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Research & Tools -->
+                <div class="project-ticket" data-category="research-tools">
+                    <div class="ticket-stub" data-project="14">
+                        <div class="ticket-image" style="background-image: url('assets/showrekorder_thumb.jpg');"></div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-content">
+                            <div class="ticket-header">
+                                <span class="ticket-number">#014</span>
+                                <span class="ticket-admit">ADMIT ONE</span>
+                            </div>
+                            <h3 class="ticket-title">SHOW<br>REKORDER</h3>
+                            <div class="ticket-details">
+                                <span class="ticket-category">Research & Tools</span>
+                                <span class="ticket-year">2024</span>
+                            </div>
+                            <div class="ticket-barcode">||||||||||||  ||  ||||  ||  ||||  ||</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-ticket" data-category="research-tools">
+                    <div class="ticket-stub" data-project="15">
+                        <div class="ticket-image" style="background-image: url('assets/touchdesigner-systems_thumb.jpg');"></div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-content">
+                            <div class="ticket-header">
+                                <span class="ticket-number">#015</span>
+                                <span class="ticket-admit">ADMIT ONE</span>
+                            </div>
+                            <h3 class="ticket-title">TOUCHDESIGNER<br>SYSTEMS</h3>
+                            <div class="ticket-details">
+                                <span class="ticket-category">Research & Tools</span>
+                                <span class="ticket-year">2024</span>
+                            </div>
+                            <div class="ticket-barcode">|||||||||||||  ||  ||||  ||  ||||  ||</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Art Project LLC. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/artproject.llc" target="_blank">Instagram</a>
+                <a href="https://www.linkedin.com/company/artproject-llc/?viewAsMember=true" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Category filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectTickets = document.querySelectorAll('.project-ticket');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter projects
+                    projectTickets.forEach(ticket => {
+                        if (category === 'all' || ticket.getAttribute('data-category') === category) {
+                            ticket.style.display = 'block';
+                            ticket.style.opacity = '0';
+                            ticket.style.transform = 'translateY(20px)';
+                            
+                            setTimeout(() => {
+                                ticket.style.opacity = '1';
+                                ticket.style.transform = 'translateY(0)';
+                            }, 100);
+                        } else {
+                            ticket.style.opacity = '0';
+                            ticket.style.transform = 'translateY(-20px)';
+                            
+                            setTimeout(() => {
+                                ticket.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

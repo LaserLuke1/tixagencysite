@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars Outlaws - Art Project</title>
+    <link rel="icon" type="image/png" href="../assets/ap_favicon_square_32x32px-1.png">
+    <link rel="stylesheet" href="https://use.typekit.net/vts0ana.css">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../project-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="nav-brand">
+                <span style="--i:0">A</span><span style="--i:1">R</span><span style="--i:2">T</span><span style="--i:3"> </span><span style="--i:4">P</span><span style="--i:5">R</span><span style="--i:6">O</span><span style="--i:7">J</span><span style="--i:8">E</span><span style="--i:9">C</span><span style="--i:10">T</span>
+            </a>
+            <button class="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="../index.html#work">Work</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../cv.html">CV</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+                <li class="settings-dropdown">
+                    <button class="settings-button">Settings</button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-header">Theme</div>
+                        <button class="dropdown-item" data-theme="light">Day</button>
+                        <button class="dropdown-item" data-theme="dark">Night</button>
+                        <button class="dropdown-item" data-theme="auto">Auto</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Enable Motion Button for iOS -->
+    <button class="enable-motion-btn" id="enableMotionBtn">
+        <span>Tap to Enable Device Motion</span>
+    </button>
+
+    <!-- World Clock Popup -->
+    <div class="world-clock-popup" id="worldClockPopup">
+        <div class="world-clock-content">
+            <div class="world-clock-header">
+                <h3>World Clock</h3>
+                <button class="world-clock-close" id="worldClockClose">&times;</button>
+            </div>
+            <div class="world-clock-times">
+                <div class="time-zone" data-timezone="Europe/Berlin">
+                    <span class="city">Berlin</span>
+                    <span class="time" id="time-berlin">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="Europe/London">
+                    <span class="city">London</span>
+                    <span class="time" id="time-london">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/New_York">
+                    <span class="city">New York</span>
+                    <span class="time" id="time-nyc">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Chicago">
+                    <span class="city">Chicago</span>
+                    <span class="time" id="time-chicago">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Denver">
+                    <span class="city">Denver</span>
+                    <span class="time" id="time-denver">--:--</span>
+                </div>
+                <div class="time-zone" data-timezone="America/Los_Angeles">
+                    <span class="city">Los Angeles</span>
+                    <span class="time" id="time-la">--:--</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Hero -->
+    <section class="project-hero">
+        <div class="container">
+            <a href="../index.html#work" class="back-link">← Back to Projects</a>
+            
+            <div class="project-ticket-large">
+                <div class="ticket-image-large" style="background-image: url('../assets/star_wars_outlaws_thumb.webp'); background-position: center 30%;"></div>
+                <div class="ticket-perforation-large"></div>
+                <div class="ticket-content-large">
+                    <div class="ticket-header-large">
+                        <span class="ticket-number">#002</span>
+                        <span class="ticket-admit">ADMIT ONE</span>
+                    </div>
+                    <h1 class="project-title-large">STAR WARS<br>OUTLAWS</h1>
+                    <div class="ticket-meta">
+                        <span class="ticket-category">Experiential Activations</span>
+                        <span class="ticket-year">2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section class="project-overview">
+        <div class="container">
+            <div class="overview-grid">
+                <div class="overview-item">
+                    <h3>Client</h3>
+                    <p>Ubisoft / Lucasfilm Games</p>
+                </div>
+                <div class="overview-item">
+                    <h3>Services</h3>
+                    <p>Projection Mapping Design<br>Technical Direction<br>Playback System</p>
+                </div>
+                <div class="overview-item">
+                    <h3>Year</h3>
+                    <p>2024</p>
+                </div>
+                <div class="overview-item">
+                    <h3>Location</h3>
+                    <p>Irvine, California</p>
+                </div>
+                <div class="overview-item">
+                    <h3>Role</h3>
+                    <p>Projection Mapping Design<br>Technical Direction<br>Playback System</p>
+                </div>
+                <div class="overview-item">
+                    <h3>Tools</h3>
+                    <p>TouchDesigner<br>Notch<br>Disguise<br>Laser Systems</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Description -->
+    <section class="project-description">
+        <div class="container">
+            <div class="description-content">
+                <p>
+                    In collaboration with Ubisoft and Lucasfilm Games, ArtProject brought Star Wars Outlaws to life with a large-scale projection mapping installation for the game's release event in Irvine, California.
+                </p>
+                
+                <p>
+                    The exterior of the venue was transformed into a cinematic canvas, merging live visuals, laser light, and dynamic motion design inspired by the Star Wars universe. Every frame was tailored to capture the grit, energy, and atmosphere of Outlaws — from its neon-lit cityscapes to the expansive desert worlds that define its visual identity.
+                </p>
+                
+                <p>
+                    ArtProject handled the full projection mapping pipeline — from content design and show programming to on-site calibration and playback. The result was a seamless fusion of brand storytelling and technical precision, delivering an unforgettable first look at one of the most anticipated titles of the year.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Images -->
+    <section class="project-images">
+        <div class="container">
+            <!-- Large Image -->
+            <div class="image-block">
+                <div class="placeholder-image large">
+                    <div class="placeholder-content">
+                        <p>Venue Exterior Projection</p>
+                        <span>Large-scale projection mapping installation</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Column -->
+            <div class="image-grid-2">
+                <div class="image-block">
+                    <div class="placeholder-image">
+                        <div class="placeholder-content">
+                            <p>Laser Light Integration</p>
+                            <span>Dynamic motion design and laser systems</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-block">
+                    <div class="placeholder-image">
+                        <div class="placeholder-content">
+                            <p>Technical Setup</p>
+                            <span>On-site calibration and playback system</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Three Column -->
+            <div class="image-grid-3">
+                <div class="image-block">
+                    <div class="placeholder-image square">
+                        <div class="placeholder-content">
+                            <p>Neon Cityscapes</p>
+                            <span>Outlaws-inspired visual content</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-block">
+                    <div class="placeholder-image square">
+                        <div class="placeholder-content">
+                            <p>Desert Worlds</p>
+                            <span>Expansive landscape visuals</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-block">
+                    <div class="placeholder-image square">
+                        <div class="placeholder-content">
+                            <p>Show Programming</p>
+                            <span>TouchDesigner and Disguise workflow</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Results -->
+    <section class="project-results">
+        <div class="container">
+            <h2 class="section-title">Results</h2>
+            <div class="results-grid">
+                <div class="result-item">
+                    <div class="result-number">500K+</div>
+                    <p>Social media impressions</p>
+                </div>
+                <div class="result-item">
+                    <div class="result-number">95%</div>
+                    <p>Positive engagement rate</p>
+                </div>
+                <div class="result-item">
+                    <div class="result-number">8</div>
+                    <p>Major gaming conventions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Project -->
+    <section class="next-project">
+        <div class="container">
+            <div class="next-project-content">
+                <span class="next-label">Next Project</span>
+                <a href="subaru-autoshow.html" class="next-project-link">
+                    <h3>Subaru Autoshow</h3>
+                    <span class="next-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Art Project LLC. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/artproject.llc" target="_blank">Instagram</a>
+                <a href="https://www.linkedin.com/company/artproject-llc/?viewAsMember=true" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
