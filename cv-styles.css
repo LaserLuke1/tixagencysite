@@ -35,7 +35,9 @@
 
 .cv-title {
     font-size: 48px;
-    font-weight: 600;
+    font-weight: 500;
+    font-style: normal;
+    font-family: "mono45-headline", monospace;
     letter-spacing: 2px;
     margin-bottom: 20px;
     color: #000000;

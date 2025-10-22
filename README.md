@@ -97,6 +97,24 @@ ticket_site/
 - **CV Page**: Filterable list of shows, performances, and exhibitions
 - **Responsive Design**: Mobile-first approach with touch support
 
+## Typography
+
+### Mono45 Headline
+The site uses **Mono45 Headline** from Adobe Typekit for key branding elements:
+
+- **ArtProject Logo**: Mono45 Headline Medium (font-weight: 500)
+- **Hero Title**: Mono45 Headline Light (font-weight: 300)
+
+This monospace font provides a technical, modern aesthetic that aligns with the studio's focus on art, technology, and storytelling. The font is loaded via Adobe Typekit (`https://use.typekit.net/vts0ana.css`).
+
+**Font Specifications:**
+```css
+font-family: "mono45-headline", monospace;
+font-weight: 500; /* Medium for logo */
+font-weight: 300; /* Light for hero title */
+font-style: normal;
+```
+
 ## Theme Configuration
 
 Users can select themes via Settings dropdown:

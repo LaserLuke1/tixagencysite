@@ -42,17 +42,18 @@ body {
 }
 
 .nav-brand {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: 500;
+    font-style: normal;
+    font-family: "mono45-headline", monospace;
     letter-spacing: 2px;
     color: #000000;
     text-decoration: none;
     border: 3px solid #000000;
-    padding: 8px 16px;
+    padding: 4px 12px;
     display: inline-block;
     position: relative;
     transition: all 0.3s ease;
-    font-family: "futura-pt", sans-serif;
 }
 
 .nav-brand::before {
@@ -571,6 +572,8 @@ body.prism-active .prism-overlay {
 .hero-title {
     font-size: 64px;
     font-weight: 300;
+    font-style: normal;
+    font-family: "mono45-headline", monospace;
     letter-spacing: -1px;
     margin-bottom: 20px;
     line-height: 1.2;
@@ -887,11 +890,15 @@ body.prism-active .prism-overlay {
 }
 
 .ticket-number {
-    font-weight: 600;
+    font-weight: 400;
+    font-family: "courier-prime", monospace;
+    font-style: normal;
 }
 
 .ticket-admit {
-    font-weight: 600;
+    font-weight: 400;
+    font-family: "courier-prime", monospace;
+    font-style: normal;
 }
 
 .ticket-title {
@@ -920,11 +927,16 @@ body.prism-active .prism-overlay {
     font-size: 11px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    font-family: "courier-prime", monospace;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .ticket-year {
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 400;
+    font-family: "courier-prime", monospace;
+    font-style: normal;
 }
 
 .ticket-barcode {
